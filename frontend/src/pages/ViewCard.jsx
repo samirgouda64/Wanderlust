@@ -153,13 +153,13 @@ function ViewCard() {
         <FaArrowLeftLong className="w-[25px] h-[25px] text-[white]" />
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]">
-        <h1 className="text-[20px] text-[#272727] md:text-[30px] text-ellipsis text-nowrap overflow-hidden px-[70px] md:px-[0px]">
+      <div className="w-[95%] flex items-start justify-start text-[15px] md:w-[80%] mb-[10px]">
+        <h1 className="text-[15px] text-[#272727] md:text-[20px] text-ellipsis text-nowrap overflow-hidden px-[70px] md:px-[0px]">
           {`In ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()}`}
         </h1>
       </div>
 
-      <div className="w-[95%] h-[400px] flex items-center justify-center flex-col md:w-[80%] md:flex-row">
+      <div className="w-[90%] h-[360px] flex items-center justify-center flex-col md:w-[80%] md:flex-row">
         <div className="w-[100%] h-[65%] md:w-[70%] md:h-[100%] overflow-hidden flex items-center justify-center border-[2px] border-[white]">
           <img src={cardDetails.image1} alt="" className="w-[100%]" />
         </div>
@@ -173,11 +173,11 @@ function ViewCard() {
         </div>
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px]">
+      <div className="w-[95%] flex items-start justify-start text-[15px] md:w-[80%] md:text-[20px]">
         {`${cardDetails.title.toUpperCase()} ${cardDetails.category.toUpperCase()} , ${cardDetails.landMark.toUpperCase()} `}
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] text-gray-800">
+      <div className="w-[95%] flex items-start justify-start text-[13px] md:w-[80%] md:text-[15px] text-gray-800">
         {`${cardDetails.description.toUpperCase()} `}
       </div>
 
