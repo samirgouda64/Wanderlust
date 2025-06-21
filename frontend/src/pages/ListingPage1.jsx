@@ -187,7 +187,7 @@ function ListingPage1() {
           />
         </div>
 
-        <button className="px-[50px] py-[10px] bg-[blue] text-[white] text-[18px] md:px-[100px] rounded-lg">
+        <button className="px-[50px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg">
           Next
         </button>
       </form>
