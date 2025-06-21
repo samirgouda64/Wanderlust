@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://wanderlust-frontend-4oz6.onrender.com",
+    // origin: "https://wanderlust-frontend-4oz6.onrender.com",
+    origin: "http://localhost:5173",
     credentials:true
   })
 );
