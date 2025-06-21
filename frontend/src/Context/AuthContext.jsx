@@ -3,8 +3,8 @@ import React, { createContext, useState } from "react";
 export const authDataContext = createContext();
 
 function AuthContext({ children }) {
-  // let serverUrl = "https://wanderlust-backend-1d10.onrender.com";
-  let serverUrl = "http://localhost:8000";
+  let serverUrl = "https://wanderlust-backend-1d10.onrender.com";
+  // let serverUrl = "http://localhost:8000";
 
   let [loading, setLoading] = useState(false);
 
