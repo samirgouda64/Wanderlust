@@ -141,7 +141,7 @@ function Nav() {
                       handleLogOut();
                       setShowpopup(false);
                     }}
-                  >
+                  ><i class="fa-solid fa-lock"></i>
                     Logout
                   </li>
                 )}
