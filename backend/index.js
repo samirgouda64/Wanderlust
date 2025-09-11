@@ -20,7 +20,6 @@ app.use(
   cors({
      origin: "https://wanderlust-frontend-4oz6.onrender.com",
     //origin: "http://localhost:5173",
-    origin: allowedOrigin,
     credentials:true
   })
 );
