@@ -10,8 +10,7 @@ import bookingRouter from "./routes/booking.route.js";
 dotenv.config();
 
 let port = process.env.PORT || 6000;
-// Dynamically allow frontend origin from .env
-const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+
 
 
 let app = express();
@@ -19,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    // origin: "https://wanderlust-frontend-4oz6.onrender.com",
+     origin: "https://wanderlust-frontend-4oz6.onrender.com",
     //origin: "http://localhost:5173",
     origin: allowedOrigin,
     credentials:true
