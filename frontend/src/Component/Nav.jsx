@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.svg";
 import { FiSearch } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -27,6 +27,7 @@ function Nav() {
   let { listingData, setListingData, newListData, setNewListData, searchData, handleSearch, handleViewCard } =
     useContext(listingDataContext);
     let [input, setInput] = useState("")
+    const popupRef = useRef(null);
 
   const handleLogOut = async () => {
     try {
@@ -64,6 +65,20 @@ function Nav() {
     handleSearch(input)
   }, [input])
 
+  // close popup if click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowpopup(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="fixed top-0 bg-[white] z-[20]">
       <div className="w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[20px] flex items-center justify-between md:px-[40px]">
@@ -97,9 +112,9 @@ function Nav() {
 
           </div>}
 
-        <div className="flex items-center justify-center gap-[10px] relative">
+        <div className="flex items-center justify-center gap-[10px] relative" ref={popupRef}>
           <span
-            className="text-[18px] cursor-pointer rounded-[50px] hover:bg-[#ded9d9] px-[8px] py-[5px] hidden md:block"
+            className="text-[18px] cursor-pointer rounded-[10px] hover:bg-[#e41818] px-[8px] py-[5px] hidden md:block"
             onClick={() => navigate("/listingpage1")}
           >
             List your Home
@@ -131,7 +146,7 @@ function Nav() {
                       navigate("/login");
                       setShowpopup(false);
                     }}
-                  >
+                  ><i class="fa-solid fa-circle-user"></i> &nbsp;
                     Login
                   </li>
                 ) : (
@@ -141,7 +156,7 @@ function Nav() {
                       handleLogOut();
                       setShowpopup(false);
                     }}
-                  ><i class="fa-solid fa-lock"></i>
+                  ><i class="fa-solid fa-lock"></i> &nbsp;
                     Logout
                   </li>
                 )}
@@ -152,16 +167,16 @@ function Nav() {
                     navigate("/listingpage1");
                     setShowpopup(false);
                   }}
-                >
+                ><i class="fa-solid fa-list"></i> &nbsp;
                   List your Home
                 </li>
                 <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={() => {
                     navigate("/mylisting");
                     setShowpopup(false);
-                  }}>
+                  }}><i class="fa-solid fa-list-check"></i> &nbsp;
                   My Listing
                 </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {navigate("/mybooking"); setShowpopup(false)}}>
+                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {navigate("/mybooking"); setShowpopup(false)}}><i class="fa-solid fa-book-open"></i> &nbsp;
                   My Booking
                 </li>
               </ul>
