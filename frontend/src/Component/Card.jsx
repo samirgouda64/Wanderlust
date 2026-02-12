@@ -35,65 +35,93 @@ function Card({
     }
   };
 
-  return (
-    <div
-      className="w-[330px] max-w-[85%] h-[460px] flex items-start justify-start flex-col rounded-lg cursor-pointer relative z-[10]"
-      onClick={() => (!isBooked ? handleClick() : null)}
-    >
-      {isBooked && (
-        <div className="text-[green] bg-white rounded-lg absolute flex items-center justify-center right-1 top-1 gap-[5px] p-[5px]">
-          <GiConfirmed className="w-[20px] h-[20px] text-[green]" />
-          Booked
-        </div>
-      )}
+return (
+  <div
+    className="w-[200px] max-w-[90%] h-[260px] bg-white flex flex-col rounded-xl cursor-pointer relative z-[10] 
+               shadow-md"
+    onClick={() => (!isBooked ? handleClick() : null)}
+  >
+    {/* Booked Badge */}
+    {isBooked && (
+      <div className="text-green-600 bg-white/90 backdrop-blur-md rounded-full absolute right-2 top-2 
+                      flex items-center gap-1 px-2 py-1 text-xs shadow">
+        <GiConfirmed className="w-[16px] h-[16px]" />
+        Booked
+      </div>
+    )}
 
-      {isBooked && host == userData?._id && (
-        <div className="text-[red] bg-white rounded-lg absolute flex items-center justify-center right-1 top-[50px] gap-[5px] p-[5px]" onClick={() => setPopUp((prev) => !prev)}>
-          <FcCancel className="w-[20px] h-[20px] text-[red]" />
-          Cancel Booking
-        </div>
-      )}
+    {/* Cancel Badge */}
+    {isBooked && host == userData?._id && (
+      <div
+        className="text-red-500 bg-white/90 backdrop-blur-md rounded-full absolute right-2 top-[45px] 
+                   flex items-center gap-1 px-2 py-1 text-xs shadow"
+        onClick={(e) => {e.stopPropagation(); setPopUp((prev) => !prev)}}
+      >
+        <FcCancel className="w-[16px] h-[16px]" />
+        Cancel
+      </div>
+    )}
 
-      {popUp && <div className="w-[300px] h-[100px] bg-[#ffffffdf] absolute top-[110px] left-[13px] rounded-lg">
-        <div className="w-[100%] h-[50%] text-[#2e2d2d] flex items-start justify-center rounded-lg overflow-auto text-[20px] p-[10px]">
-          Booking Cancel!
+    {/* Popup */}
+    {popUp && (
+      <div className="w-[260px] h-[110px] bg-white/95 backdrop-blur-lg absolute top-[110px] left-[10px] 
+                      rounded-lg shadow-lg flex flex-col overflow-hidden">
+        <div className="h-[50%] flex items-center justify-center text-gray-700 text-sm">
+          Cancel this booking?
         </div>
-        <div className="w-[100%] h-[50%] text-[18px] font-semibold flex items-start justify-center gap-[10px] text-[#986b6b]">
-          Are You Sure?{" "}
-          <button className="px-[20px] bg-[red] text-[white] rounded-lg hover:bg-slate-600" onClick={() => {cancelBooking(id); setPopUp((prev) => !prev)}}>
+        <div className="h-[50%] flex items-center justify-center gap-3">
+          <button
+            className="px-4 py-1 bg-red-500 text-white rounded-md text-sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              cancelBooking(id);
+              setPopUp((prev) => !prev);
+            }}
+          >
             Yes
-          </button>{" "}
-          <button className="px-[20px] bg-[red] text-[white] rounded-lg hover:bg-slate-600" onClick={() => setPopUp((prev) => !prev)}>
+          </button>
+          <button
+            className="px-4 py-1 bg-gray-300 text-gray-800 rounded-md text-sm"
+            onClick={(e) =>{e.stopPropagation(); setPopUp((prev) => !prev)}}
+          >
             No
           </button>
         </div>
-      </div>}
-
-      <div className="w-[100%] h-[67%] rounded-lg overflow-auto flex">
-        <img src={image1} alt="" className="w-[100%] flex-shrink-0" />
-        <img src={image2} alt="" className="w-[100%] flex-shrink-0" />
-        <img src={image3} alt="" className="w-[100%] flex-shrink-0" />
       </div>
+    )}
 
-      <div className="w-[100%] h-[33%] py-[20px] flex flex-col gap-[2px]">
-        <div className="flex items-center justify-between text-[18px]">
-          <span className="w-[80%] text-ellipsis overflow-hidden font-semibold text-nowrap text-[#4a3434]">
-            In {landMark.toUpperCase()},{city.toUpperCase()}{" "}
-          </span>
-          <span className="flex items-center justify-center gap-[5px]">
-            <FaStar className="text-[#eb6262]" />
-            {ratings}
-          </span>
-        </div>
-        <span className="w-[80%] text-[15px] text-ellipsis overflow-hidden text-nowrap">
-          {title.toUpperCase()}
-        </span>
-        <span className="text-[16px] font-semibold text-[#986b6b]">
-          ₹{rent}/day
-        </span>
+    {/* Images */}
+    <div className="w-full h-[65%] rounded-xl overflow-hidden">
+      <div className="w-full h-full flex">
+        <img src={image1} className="w-full flex-shrink-0 object-cover" />
+        <img src={image2} className="w-full flex-shrink-0 object-cover" />
+        <img src={image3} className="w-full flex-shrink-0 object-cover" />
       </div>
     </div>
-  );
+
+    {/* Details */}
+    <div className="w-full h-[35%] p-3 flex flex-col gap-1">
+      <div className="flex justify-between items-center text-sm">
+        <span className="w-[75%] font-semibold text-gray-700 truncate">
+          {landMark.toUpperCase()}, {city.toUpperCase()}
+        </span>
+        <span className="flex items-center gap-1 text-xs">
+          <FaStar className="text-yellow-500" />
+          {ratings}
+        </span>
+      </div>
+
+      <span className="text-xs text-gray-500 truncate">
+        {title.toUpperCase()}
+      </span>
+
+      <span className="text-md font-bold text-red-500">
+        ₹{rent} <span className="text-xs font-normal text-gray-500">/day</span>
+      </span>
+    </div>
+  </div>
+);
+
 }
 
 export default Card;

@@ -9,7 +9,7 @@ function Home() {
   return (
     <div>
       <Nav />
-      <div className="w-[100vw] h-[77vh] flex items-center justify-center gap-[25px] flex-wrap mt-[250px] md:mt-[180px]">
+      <div className="w-[100vw] h-[40vh] flex items-center justify-center gap-[25px] flex-wrap mt-[250px] md:mt-[180px]">
         {newListData.map((list) => (
           <Card
           key={list._id}

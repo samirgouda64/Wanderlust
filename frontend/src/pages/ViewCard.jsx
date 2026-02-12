@@ -106,17 +106,26 @@ function ViewCard() {
     }
   };
 
+  const [imageNames, setImageNames] = useState({
+    image1: "",
+    image2: "",
+    image3: "",
+  });
+
   const handleImage1 = (e) => {
     let file = e.target.files[0];
     setBackEndImage1(file);
+    setImageNames((prev) => ({ ...prev, image1: file.name }));
   };
   const handleImage2 = (e) => {
     let file = e.target.files[0];
     setBackEndImage2(file);
+    setImageNames((prev) => ({ ...prev, image2: file.name }));
   };
   const handleImage3 = (e) => {
     let file = e.target.files[0];
     setBackEndImage3(file);
+    setImageNames((prev) => ({ ...prev, image3: file.name }));
   };
 
   const handleDeleteListing = async () => {
@@ -147,23 +156,23 @@ function ViewCard() {
   return (
     <div className="w-[100%] h-[100vh] bg-white flex items-center justify-center gap-[10px] flex-col relative overflow-auto">
       <div
-        className="w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[5%] left-[20px] rounded-[50%] flex items-center justify-center"
+        className="w-[35px] h-[35px] bg-[red] cursor-pointer absolute top-[5%] left-[20px] rounded-[50%] flex items-center justify-center"
         onClick={() => navigate("/")}
       >
-        <FaArrowLeftLong className="w-[25px] h-[25px] text-[white]" />
+        <FaArrowLeftLong className="w-[15px] h-[15px] text-[white]" />
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[15px] md:w-[80%] mb-[10px]">
+      <div className="w-[80%] flex items-start justify-start text-[15px] md:w-[70%] mb-[10px]">
         <h1 className="text-[15px] text-[#272727] md:text-[20px] text-ellipsis text-nowrap overflow-hidden px-[70px] md:px-[0px]">
           {`In ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()}`}
         </h1>
       </div>
 
-      <div className="w-[90%] h-[360px] flex items-center justify-center flex-col md:w-[80%] md:flex-row">
+      <div className="w-[80%] h-[300px] flex items-center justify-center flex-col md:w-[70%] md:flex-row gap-3">
         <div className="w-[100%] h-[65%] md:w-[70%] md:h-[100%] overflow-hidden flex items-center justify-center border-[2px] border-[white]">
           <img src={cardDetails.image1} alt="" className="w-[100%]" />
         </div>
-        <div className="w-[100%] h-[50%] flex items-center justify-center md:w-[50%] md:h-[100%] md:flex-col">
+        <div className="w-[100%] h-[50%] flex items-center justify-center md:w-[50%] md:h-[100%] md:flex-col gap-3">
           <div className="w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]">
             <img src={cardDetails.image2} alt="" className="w-[100%]" />
           </div>
@@ -173,29 +182,29 @@ function ViewCard() {
         </div>
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[15px] md:w-[80%] md:text-[20px]">
+      <div className="w-[80%] flex items-start justify-start text-[15px] md:w-[70%] md:text-[18px]">
         {`${cardDetails.title.toUpperCase()} ${cardDetails.category.toUpperCase()} , ${cardDetails.landMark.toUpperCase()} `}
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[13px] md:w-[80%] md:text-[15px] text-gray-800">
+      <div className="w-[80%] flex items-start justify-start text-[13px] md:w-[70%] md:text-[12px] text-gray-800">
         {`${cardDetails.description.toUpperCase()} `}
       </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px]">
+      <div className="w-[80%] flex items-start justify-start text-[18px] md:w-[70%] md:text-[20px]">
         {`Rs.${cardDetails.rent}/day`}
       </div>
 
-      <div className="w-[95%] h-[50px] flex items-center justify-start px-[110px]">
+      <div className="w-[88%] h-[50px] flex items-center justify-start px-[110px]">
         {cardDetails.host == userData._id ? (
           <button
-            className="px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg text-nowrap "
+            className="px-[30px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[70px] rounded-lg text-nowrap "
             onClick={() => setUpdatePopUp((prev) => !prev)}
           >
             Edit listing
           </button>
         ) : (
           <button
-            className="px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg text-nowrap "
+            className="px-[30px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[70px] rounded-lg text-nowrap "
             onClick={() => setBookingPopUp((prev) => !prev)}
           >
             Reserve
@@ -206,161 +215,148 @@ function ViewCard() {
       {/* Update Listing Page */}
 
       {updatePopUp && (
-        <div className="w-[100%] h-[100%] flex items-center justify-center bg-[#000000a6] absolute top-[0px] z-[100] backdrop-blur-sm">
-          <RxCross2
-            className="w-[30px] h-[30px] bg-[red] cursor-pointer absolute top-[5%] left-[25px] rounded-[50%] flex items-center justify-center"
-            onClick={() => setUpdatePopUp(false)}
-          />
+        <div className="w-full min-h-screen flex items-center justify-center bg-black/60 backdrop-blur-sm fixed top-0 left-0 z-50 p-4">
 
+          {/* Form */}
           <form
-            action=""
-            className="max-w-[900px] w-[90%] h-[550px] flex items-center justify-start flex-col md:items-center gap-[10px] overflow-auto mt-[50px] text-[white] bg-[#272727] p-[20px] rounded-lg"
-            onSubmit={(e) => {
-              e.preventDefault();
-              //   navigate("/listingpage2");
-            }}
+            className="max-w-[750px] w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col gap-4 overflow-auto relative border border-white/30"
+            onSubmit={(e) => e.preventDefault()}
           >
-            <div className="w-[200px] h-[50px] text-[20px] bg-[#f14242] text-[white] flex items-center justify-center rounded-[30px] absolute top-[5%] right-[10px] shadow-lg">
+            {/* Header */}
+            <div className="text-gray-400 text-[12px] uppercase tracking-widest">
               Update Your Details
             </div>
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="title" className="text-[20px]">
-                Title
-              </label>
+            {/* Close Button */}
+            <div
+              className="w-10 h-10 bg-white/80 backdrop-blur hover:bg-white cursor-pointer rounded-full flex items-center justify-center shadow-lg absolute top-4 right-4 transition"
+              onClick={() => setUpdatePopUp(false)}
+            >
+              <RxCross2 className="w-5 h-5 text-red-500" />
+            </div>
+
+            {/* Title */}
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-600 text-[14px]">Title</label>
               <input
                 type="text"
-                id="title"
-                className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px] text-[black]"
+                className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                 required
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
-                placeholder="Title of the Place"
+                placeholder="Title of the Place..."
               />
             </div>
 
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="des" className="text-[20px]">
-                Description
-              </label>
+            {/* Description */}
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-600 text-[14px]">Description</label>
               <textarea
-                name=""
-                id="des"
-                className="w-[90%] h-[65px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px] text-[black]"
+                className="h-16 border rounded-lg px-3 py-1 text-[14px] focus:ring-2 focus:ring-red-300 outline-none resize-none transition"
                 required
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
-              ></textarea>
+                placeholder="Tell what makes your place special..."
+              />
             </div>
 
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="image1" className="text-[20px]">
-                Image1
-              </label>
-              <div className="flex items-center justify-start w-[90%] h-[40px] border-[#555656] border-2 rounded-[10px]">
+            {/* Images */}
+            <div className="text-gray-400 text-[12px] uppercase tracking-widest">
+              Upload Images
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {[
+                { label: "Image1", key: "image1", handler: handleImage1 },
+                { label: "Image2", key: "image2", handler: handleImage2 },
+                { label: "Image3", key: "image3", handler: handleImage3 },
+              ].map((img, i) => (
+                <label
+                  key={i}
+                  className={`flex flex-col items-center justify-center gap-1 h-[70px] border-2 rounded-xl cursor-pointer transition text-center
+                  ${
+                    imageNames[img.key]
+                      ? "border-green-400 bg-green-50"
+                      : "border-dashed hover:border-red-400 hover:bg-red-50"
+                  }`}
+                >
+                  <span className="text-[12px] text-gray-500">{img.label}</span>
+                  <span
+                    className={`text-[11px] w-[90%] truncate ${
+                      imageNames[img.key] ? "text-green-700" : "text-red-400"
+                    }`}
+                  >
+                    {imageNames[img.key] || "Click to upload"}
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    required
+                    onChange={img.handler}
+                  />
+                </label>
+              ))}
+            </div>
+
+            {/* Location & Rent */}
+            <div className="text-gray-400 text-[12px] uppercase tracking-widest mt-2">
+              Location & Pricing
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-600 text-[14px]">Rent</label>
                 <input
-                  type="file"
-                  id="image1"
-                  className="w-[100%] text-[15px] px-[10px]"
+                  type="number"
+                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                   required
-                  onChange={handleImage1}
+                  onChange={(e) => setRent(e.target.value)}
+                  value={rent}
+                  placeholder="₹ Rent.."
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-600 text-[14px]">City</label>
+                <input
+                  type="text"
+                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                  required
+                  onChange={(e) => setCity(e.target.value)}
+                  value={city}
+                  placeholder="City..."
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-gray-600 text-[14px]">Landmark</label>
+                <input
+                  type="text"
+                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                  required
+                  onChange={(e) => setLandMark(e.target.value)}
+                  value={landMark}
+                  placeholder="Landmark..."
                 />
               </div>
             </div>
 
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="image2" className="text-[20px]">
-                Image2
-              </label>
-              <div className="flex items-center justify-start w-[90%] h-[40px] border-[#555656] border-2 rounded-[10px]">
-                <input
-                  type="file"
-                  id="image2"
-                  className="w-[100%] text-[15px] px-[10px]"
-                  required
-                  onChange={handleImage2}
-                />
-              </div>
-            </div>
-
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="image3" className="text-[20px]">
-                Image3
-              </label>
-              <div className="flex items-center justify-start w-[90%] h-[40px] border-[#555656] border-2 rounded-[10px]">
-                <input
-                  type="file"
-                  id="image3"
-                  className="w-[100%] text-[15px] px-[10px]"
-                  required
-                  onChange={handleImage3}
-                />
-              </div>
-            </div>
-
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="rent" className="text-[20px]">
-                Rent
-              </label>
-              <input
-                type="number"
-                id="rent"
-                className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px] text-[black]"
-                required
-                onChange={(e) => setRent(e.target.value)}
-                value={rent}
-                placeholder="Price in Rs._____"
-              />
-            </div>
-
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="city" className="text-[20px]">
-                City
-              </label>
-              <input
-                type="text"
-                id="city"
-                className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px] text-[black]"
-                required
-                onChange={(e) => setCity(e.target.value)}
-                value={city}
-                placeholder="City, Country"
-              />
-            </div>
-
-            <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-              <label htmlFor="landmark" className="text-[20px]">
-                Landmark
-              </label>
-              <input
-                type="text"
-                id="landmark"
-                className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px] text-[black]"
-                required
-                onChange={(e) => setLandMark(e.target.value)}
-                value={landMark}
-              />
-            </div>
-
-            <div className="w-[100%] flex items-center justify-center gap-[30px] mt-[20px]">
+            {/* Buttons */}
+            <div className="flex justify-end mt-4 gap-3">
               <button
-                className="px-[10px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-wrap"
+                className="w-[100px] py-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
                 onClick={handleUpdateListing}
                 disabled={updating}
               >
-                {updating ? "updating..." : "Update Listing"}
+                {updating ? "Updating..." : "Update"}
               </button>
-
               <button
-                className="px-[10px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[100px] rounded-lg md:text-[18px] text-wrap"
+                className="w-[100px] py-1.5 bg-gray-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
                 onClick={handleDeleteListing}
                 disabled={deleting}
               >
-                {deleting ? "Deleting..." : "Delete Listing"}
+                {deleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </form>
         </div>
       )}
+
 
       {bookingPopUp && (
         <div className="w-[100%] min-h-[100%] flex items-center justify-center flex-col gap-[30px] bg-[#ffffffcd] absolute top-[0px] z-[100] p-[20px] backdrop-blur-sm md:flex-row md:gap-[100px]">

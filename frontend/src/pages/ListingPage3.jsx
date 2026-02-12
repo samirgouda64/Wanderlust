@@ -35,58 +35,71 @@ function ListingPage3() {
     setAdding,
   } = useContext(listingDataContext);
 
-  return (
-    <div className="w-[100%] h-[100vh] bg-white flex items-center justify-center gap-[10px] flex-col relative overflow-auto">
-      <div
-        className="w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[5%] left-[20px] rounded-[50%] flex items-center justify-center"
-        onClick={() => navigate("/listingpage2")}
-      >
-        <FaArrowLeftLong className="w-[25px] h-[25px] text-[white]" />
-      </div>
+return (
+  <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center gap-[8px] flex-col relative overflow-auto">
+    
+    {/* BACK */}
+    <div
+      className="w-[30px] h-[30px] bg-red-500 hover:bg-red-600 transition cursor-pointer absolute top-4 left-4 rounded-full flex items-center justify-center shadow"
+      onClick={() => navigate("/listingpage2")}
+    >
+      <FaArrowLeftLong className="w-[14px] h-[14px] text-white" />
+    </div>
 
-      <div className="w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]">
-        <h1 className="text-[20px] text-[#272727] md:text-[30px] text-ellipsis text-nowrap overflow-hidden px-[70px] md:px-[0px]">
-          {`In ${landMark.toUpperCase()}, ${city.toUpperCase()}`}
-        </h1>
-      </div>
+    {/* LOCATION */}
+    <div className="w-[95%] md:w-[78%] mb-[4px]">
+      <h1 className="text-[15px] md:text-[20px] font-semibold text-gray-800 truncate">
+        In {landMark.toUpperCase()}, {city.toUpperCase()}
+      </h1>
+    </div>
 
-      <div className="w-[95%] h-[400px] flex items-center justify-center flex-col md:w-[80%] md:flex-row">
-        <div className="w-[100%] h-[65%] md:w-[70%] md:h-[100%] overflow-hidden flex items-center justify-center border-[2px] border-[white]">
-          <img src={frontEndImage1} alt="" className="w-[100%]" />
+    {/* IMAGES */}
+    <div className="w-[95%] h-[300px] flex flex-col md:flex-row md:w-[78%] gap-2">
+      <div className="w-full md:w-[64%] h-[60%] md:h-full overflow-hidden rounded-md shadow">
+        <img src={frontEndImage1} alt="" className="w-full h-full object-cover" />
+      </div>
+      <div className="w-full md:w-[36%] h-[40%] md:h-full flex md:flex-col gap-2">
+        <div className="w-full h-full overflow-hidden rounded-md shadow">
+          <img src={frontEndImage2} alt="" className="w-full h-full object-cover" />
         </div>
-        <div className="w-[100%] h-[50%] flex items-center justify-center md:w-[50%] md:h-[100%] md:flex-col">
-          <div className="w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]">
-            <img src={frontEndImage2} alt="" className="w-[100%]" />
-          </div>
-          <div className="w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]">
-            <img src={frontEndImage3} alt="" className="w-[100%]" />
-          </div>
+        <div className="w-full h-full overflow-hidden rounded-md shadow">
+          <img src={frontEndImage3} alt="" className="w-full h-full object-cover" />
         </div>
-      </div>
-
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px]">
-        {`${title.toUpperCase()} ${category.toUpperCase()} , ${landMark.toUpperCase()} `}
-      </div>
-
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] text-gray-800">
-        {`${description.toUpperCase()} `}
-      </div>
-
-      <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px]">
-        {`Rs.${rent}/day`}
-      </div>
-
-      <div className="w-[95%] h-[50px] flex items-center justify-start px-[100px]">
-        <button
-          className="px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg text-nowrap"
-          onClick={handleAddListing}
-          disabled={adding}
-        >
-          {adding ? "adding...." : "Add Listing"}
-        </button>
       </div>
     </div>
-  );
+
+    {/* TITLE */}
+    <div className="w-[95%] md:w-[78%] text-[15px] md:text-[18px] font-medium text-gray-800">
+      {title.toUpperCase()} {category.toUpperCase()} , {landMark.toUpperCase()}
+    </div>
+
+    {/* DESCRIPTION */}
+    <div className="w-[95%] md:w-[78%] text-[13px] md:text-[15px] text-gray-600 leading-snug">
+      {description}
+    </div>
+
+    {/* PRICE */}
+    <div className="w-[95%] md:w-[78%] text-[16px] md:text-[18px] font-semibold text-red-500">
+      ₹ {rent} / day
+    </div>
+
+    {/* BUTTON */}
+    <div className="w-[95%] md:w-[78%] flex justify-end mt-1">
+      <button
+        className="px-[28px] py-[6px] 
+        bg-gradient-to-r from-red-500 to-pink-500 
+        text-white text-[14px] rounded-md shadow 
+        hover:scale-[1.04] transition 
+        disabled:opacity-40 disabled:cursor-not-allowed"
+        onClick={handleAddListing}
+        disabled={adding}
+      >
+        {adding ? "Adding..." : "Add Listing"}
+      </button>
+    </div>
+  </div>
+);
+
 }
 
 export default ListingPage3;

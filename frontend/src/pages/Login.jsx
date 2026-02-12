@@ -43,72 +43,87 @@ function Login() {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] flex items-center justify-center relative">
-      <div
-        className="w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[10%] left-[6%] rounded-[50%] flex items-center justify-center"
-        onClick={() => navigate("/")}
-      >
-        <FaArrowLeftLong className="w-[25px] h-[25px] text-[white]" />
-      </div>
-      <form
-        action=""
-        className="max-w-[900px] w-[90%] h-[600px] flex items-center justify-center flex-col md:items-start gap-[10px]"
-        onSubmit={handleLogin}
-      >
-        <h1 className="text-[30px] text-[black]">Welcome to Airbnb</h1>
-        <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] ">
-          <label htmlFor="email" className="text-[20px]">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px]"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-        </div>
-        <div className="w-[90%] flex items-start justify-start flex-col gap-[10px] relative ">
-          <label htmlFor="password" className="text-[20px]">
-            Paswword
-          </label>
-          <input
-            type={show ? "text" : "password"}
-            id="password"
-            className="w-[90%] h-[40px] border-[2px] border-[#555656] rounded-lg text-[18px] px-[20px]"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-          {!show && (
-            <IoMdEye
-              className="w-[22px] h-[22px] absolute right-[12%] bottom-[10px] cursor-pointer"
-              onClick={() => setShow((prev) => !prev)}
-            />
-          )}
-          {show && (
-            <IoMdEyeOff
-              className="w-[22px] h-[22px] absolute right-[12%] bottom-[10px] cursor-pointer"
-              onClick={() => setShow((prev) => !prev)}
-            />
-          )}
-        </div>
-        <button className="px-[50px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg mt-[20px] " disabled={loading}>
-          {loading ? "Loading..." : "Login"}
-        </button>
-        <p className="text-[18px]">
-          Don't have an account ?{" "}
-          <span
-            className="text-[19px] text-[green] cursor-pointer"
-            onClick={() => navigate("/signup")}
-          >
-            SignUp
-          </span>
-        </p>
-      </form>
+  <div className="w-[100vw] h-[100vh] flex items-center justify-center bg-gradient-to-br from-pink-50 to-red-100 relative">
+    
+    {/* Back Button */}
+    <div
+      className="w-[35px] h-[35px] bg-white shadow-lg cursor-pointer absolute top-[5%] left-[5%] rounded-full flex items-center justify-center hover:scale-110 transition"
+      onClick={() => navigate("/")}
+    >
+      <FaArrowLeftLong className="w-[20px] h-[20px] text-red-500" />
     </div>
-  );
+
+    {/* Card */}
+    <form
+      className="max-w-[450px] w-[90%] bg-white p-[40px] rounded-2xl shadow-2xl flex flex-col gap-[20px]"
+      onSubmit={handleLogin}
+    >
+      <h1 className="text-[23px] font-bold text-center text-gray-800">
+        Welcome to <span className="text-red-500">Wanderlust</span>
+      </h1>
+
+      <p className="text-center text-[13px] text-gray-500">
+        Login to explore beautiful places 🌍
+      </p>
+
+      {/* Email */}
+      <div className="flex flex-col gap-[5px]">
+        <label className="text-[16px] text-gray-600">Email</label>
+        <input
+          type="email"
+          className="h-[38px] border border-gray-300 rounded-lg px-[15px] focus:outline-none focus:ring-2 focus:ring-red-400"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+      </div>
+
+      {/* Password */}
+      <div className="flex flex-col gap-[5px] relative">
+        <label className="text-[16px] text-gray-600">Password</label>
+        <input
+          type={show ? "text" : "password"}
+          className="h-[38px] border border-gray-300 rounded-lg px-[15px] focus:outline-none focus:ring-2 focus:ring-red-400"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+
+        {!show ? (
+          <IoMdEye
+            className="w-[18px] h-[18px] absolute right-[15px] top-[38px] cursor-pointer text-gray-500"
+            onClick={() => setShow(true)}
+          />
+        ) : (
+          <IoMdEyeOff
+            className="w-[18px] h-[18px] absolute right-[15px] top-[38px] cursor-pointer text-gray-500"
+            onClick={() => setShow(false)}
+          />
+        )}
+      </div>
+
+      {/* Button */}
+      <button
+        className="h-[38px] bg-gradient-to-r from-red-400 to-pink-500 text-white text-[18px] rounded-lg hover:opacity-90 transition font-semibold"
+        disabled={loading}
+      >
+        {loading ? "Logging in..." : "Login"}
+      </button>
+
+      {/* Footer */}
+      <p className="text-center text-gray-600">
+        Don't have an account?{" "}
+        <span
+          className="text-red-500 font-semibold cursor-pointer hover:underline"
+          onClick={() => navigate("/signup")}
+        >
+          Sign Up
+        </span>
+      </p>
+    </form>
+  </div>
+);
+
 }
 
 export default Login;

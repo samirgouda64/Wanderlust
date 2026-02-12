@@ -16,104 +16,75 @@ function ListingPage2() {
 
   let { category, setCategory } = useContext(listingDataContext);
 
-  return (
-    <div className="w-[100%] h-[100vh] bg-white flex items-center justify-center relative overflow-auto">
-      <div
-        className="w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[5%] left-[6%] rounded-[50%] flex items-center justify-center"
-        onClick={() => navigate("/listingpage1")}
-      >
-        <FaArrowLeftLong className="w-[25px] h-[25px] text-[white]" />
-      </div>
-      <div className="w-[200px] h-[50px] text-[20px] bg-[#f14242] text-[white] flex items-center justify-center rounded-[30px] absolute top-[5%] right-[10px] shadow-lg">
-        Set Your Category
-      </div>
-
-      <div className="max-w-[900px] h-[550px] overflow-auto bg-white flex items-center justify-start flex-col gap-[40px] mt-[30px]">
-        <h1 className="text-[18px] text-[black] md:text-[30px]">
-          Which of these best describes your place?
-        </h1>
-
-        <div className="max-w-[900px] w-[100%] h-[100%] flex flex-wrap items-center justify-center gap-[15px] md:w-[70%] ">
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "villa" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("villa")}
-          >
-            <GiFamilyHouse className="w-[30px] h-[30px] text-[black]" />
-            <h3>Villa</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "farmHouse" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("farmHouse")}
-          >
-            <FaTreeCity className="w-[30px] h-[30px] text-[black]" />
-            <h3>Farm House</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "poolHouse" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("poolHouse")}
-          >
-            <MdOutlinePool className="w-[30px] h-[30px] text-[black]" />
-            <h3>Pool House</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "rooms" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("rooms")}
-          >
-            <MdBedroomParent className="w-[30px] h-[30px] text-[black]" />
-            <h3>Rooms</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "flat" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("flat")}
-          >
-            <BiBuildingHouse className="w-[30px] h-[30px] text-[black]" />
-            <h3>Flat</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "pg" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("pg")}
-          >
-            <IoBedOutline className="w-[30px] h-[30px] text-[black]" />
-            <h3>PG</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "cabin" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("cabin")}
-          >
-            <GiWoodCabin className="w-[30px] h-[30px] text-[black]" />
-            <h3>Cabin</h3>
-          </div>
-          <div
-            className={`w-[180px] h-[100px] flex justify-center items-center flex-col cursor-pointer border-[2px] hover:border-[#a6a5a5] text-[16px] rounded-lg ${
-              category == "shops" ? "border-3 border-[#8b8b8b]" : ""
-            }`}
-            onClick={() => setCategory("shops")}
-          >
-            <SiHomeassistantcommunitystore className="w-[30px] h-[30px] text-[black]" />
-            <h3>Shops</h3>
-          </div>
-        </div>
-      </div>
-
-      <button className="px-[50px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg absolute right-[5%] bottom-[5%] " onClick={() => navigate("/listingpage3")} disabled={!category}>
-        Next
-      </button>
+return (
+  <div className="w-full min-h-screen bg-gradient-to-br from-red-50 to-white flex items-center justify-center relative overflow-auto">
+    
+    {/* BACK */}
+    <div
+      className="w-[36px] h-[36px] bg-red-500 hover:bg-red-600 transition cursor-pointer absolute top-5 left-5 rounded-full flex items-center justify-center shadow"
+      onClick={() => navigate("/listingpage1")}
+    >
+      <FaArrowLeftLong className="w-[16px] h-[16px] text-white" />
     </div>
-  );
+
+    {/* CONTENT */}
+    <div className="max-w-[780px] w-full bg-white rounded-xl shadow-lg flex items-center justify-start flex-col gap-[20px] py-[28px] mt-[50px]">
+      <h1 className="text-[16px] md:text-[24px] font-semibold">
+        Which of these best describes your place?
+      </h1>
+
+      <div className="max-w-[780px] w-full flex flex-wrap items-center justify-center gap-[14px] md:w-[75%]">
+        
+        {[
+          { key: "villa", label: "Villa", icon: <GiFamilyHouse /> },
+          { key: "farmHouse", label: "Farm House", icon: <FaTreeCity /> },
+          { key: "poolHouse", label: "Pool House", icon: <MdOutlinePool /> },
+          { key: "rooms", label: "Rooms", icon: <MdBedroomParent /> },
+          { key: "flat", label: "Flat", icon: <BiBuildingHouse /> },
+          { key: "pg", label: "PG", icon: <IoBedOutline /> },
+          { key: "cabin", label: "Cabin", icon: <GiWoodCabin /> },
+          { key: "shops", label: "Shops", icon: <SiHomeassistantcommunitystore /> },
+        ].map((item) => (
+          <div
+            key={item.key}
+            className={`w-[150px] h-[90px] flex justify-center items-center flex-col cursor-pointer 
+            border rounded-lg text-[14px] transition-all duration-150
+            hover:shadow-md hover:-translate-y-[2px] hover:border-red-400
+            ${
+              category === item.key
+                ? "border-red-500 shadow-md scale-[1.02] bg-red-50"
+                : "border-gray-200"
+            }`}
+            onClick={() => setCategory(item.key)}
+          >
+            <div className={`w-[24px] h-[24px] mb-[2px] ${
+              category === item.key ? "text-red-500" : "text-gray-600"
+            }`}>
+              {item.icon}
+            </div>
+            <h3 className="font-medium">{item.label}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* NEXT BUTTON */}
+    <button
+      className="px-[50px] py-[8px] 
+      bg-gradient-to-r from-red-500 to-pink-500 
+      text-white text-[15px] rounded-lg shadow 
+      hover:scale-[1.04] transition 
+      disabled:opacity-40 disabled:cursor-not-allowed
+      absolute right-[6%] bottom-[6%]"
+      onClick={() => navigate("/listingpage3")}
+      disabled={!category}
+    >
+      Next →
+    </button>
+  </div>
+);
+
+
 }
 
 export default ListingPage2;

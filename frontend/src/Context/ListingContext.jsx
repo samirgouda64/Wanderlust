@@ -88,16 +88,34 @@ function ListingContext({ children }) {
     }
   };
 
+  // const handleSearch = async (data) => {
+  //   try {
+  //     let result = await axios.get(
+  //       serverUrl + `/api/listing/search?query=${data}`);
+  //       setSearchData(result.data);
+  //   } catch (error) {
+  //     setSearchData(null)
+  //     console.log(error);
+  //   }
+  // }
+
   const handleSearch = async (data) => {
-    try {
-      let result = await axios.get(
-        serverUrl + `/api/listing/search?query=${data}`);
-        setSearchData(result.data);
-    } catch (error) {
-      setSearchData(null)
-      console.log(error);
-    }
+  if (!data || !data.trim()) {
+    setSearchData([]);
+    return;
   }
+
+  try {
+    let result = await axios.get(
+      serverUrl + `/api/listing/search?query=${data.trim()}`
+    );
+    setSearchData(result.data);
+  } catch (error) {
+    setSearchData([]);
+    console.log(error);
+  }
+};
+
 
   const getListing = async () => {
     try {
