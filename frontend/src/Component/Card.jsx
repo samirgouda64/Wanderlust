@@ -27,12 +27,16 @@ function Card({
   let [popUp, setPopUp] = useState(false);
   let {cancelBooking} = useContext(bookingDataContext);
 
+  // const handleClick = () => {
+  //   if (userData) {
+  //     handleViewCard(id);
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
+
   const handleClick = () => {
-    if (userData) {
-      handleViewCard(id);
-    } else {
-      navigate("/login");
-    }
+    handleViewCard(id);
   };
 
 return (

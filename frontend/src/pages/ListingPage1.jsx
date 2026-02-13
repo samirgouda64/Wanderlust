@@ -71,11 +71,6 @@ return (
       <FaArrowLeftLong className="w-[16px] h-[16px] text-red-500" />
     </div>
 
-    {/* TITLE */}
-    <div className="px-5 py-1.5 text-[14px] bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full absolute top-4 right-4 shadow-lg tracking-wide">
-      🏡 SetUp Your Home
-    </div>
-
     {/* FORM */}
     <form
       className="max-w-[750px] w-[92%] bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-5 md:p-6 flex flex-col gap-4 mt-16 border border-white/40"
@@ -85,8 +80,8 @@ return (
       }}
     >
       {/* SECTION */}
-      <div className="text-gray-400 text-[12px] uppercase tracking-widest">
-        Basic Info
+      <div className="text-red-400 text-[15px] uppercase tracking-widest text-center">
+        SetUp Your Home
       </div>
 
       {/* TITLE */}

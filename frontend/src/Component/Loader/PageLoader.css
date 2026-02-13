@@ -1,0 +1,70 @@
+/* Full-screen overlay */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Loader box */
+.loader-box {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Spinner container */
+.spinner {
+    margin: 0 auto 15px;
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* important for bottom-to-top growth */
+}
+
+/* Each bar */
+.spinner > div {
+    background-color: #337ab7;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+    transform-origin: bottom; /* key for bottom-to-top animation */
+}
+
+/* Staggered delays */
+.spinner .rect2 { animation-delay: -1.1s; }
+.spinner .rect3 { animation-delay: -1.0s; }
+.spinner .rect4 { animation-delay: -0.9s; }
+.spinner .rect5 { animation-delay: -0.8s; }
+
+/* Keyframes */
+@keyframes stretchdelay {
+    0%, 40%, 100% { transform: scaleY(0.4) }  
+    20% { transform: scaleY(1.0) }
+}
+
+/* Loader text */
+.loader-box h4 {
+    margin-top: 15px;
+    color: #333;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.loader-box p {
+    color: #666;
+    font-size: 14px;
+    margin-top: 4px;
+}

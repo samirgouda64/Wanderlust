@@ -10,6 +10,7 @@ import { authDataContext } from "../Context/AuthContext";
 import { FaStar } from "react-icons/fa";
 import { bookingDataContext } from "../Context/BookingContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function ViewCard() {
   let navigate = useNavigate();
@@ -40,7 +41,8 @@ function ViewCard() {
     setTotal,
     night,
     setNight,
-    handleBooking,booking
+    handleBooking,
+    booking,
   } = useContext(bookingDataContext);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ function ViewCard() {
         formData,
         {
           withCredentials: true,
-        }
+        },
       );
       setUpdating(false);
       console.log(result);
@@ -129,22 +131,33 @@ function ViewCard() {
   };
 
   const handleDeleteListing = async () => {
-    setDeleting(true);
-    try {
-      let result = await axios.delete(
-        serverUrl + `/api/listing/delete/${cardDetails._id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(result.data);
-      navigate("/");
-      toast.success("Listing Delete");
-      setDeleting(false);
-    } catch (error) {
-      setDeleting(false);
-      toast.error(error.response.data.message);
-      console.log(error);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This will permanently delete your listing.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#f43f5e",
+    });
+    if (result.isConfirmed) {
+      setDeleting(true);
+      try {
+        let result = await axios.delete(
+          serverUrl + `/api/listing/delete/${cardDetails._id}`,
+          {
+            withCredentials: true,
+          },
+        );
+        console.log(result.data);
+        navigate("/");
+        toast.success("Listing Delete");
+        setDeleting(false);
+      } catch (error) {
+        setDeleting(false);
+        toast.error(error.response.data.message);
+        console.log(error);
+      }
     }
   };
 
@@ -152,6 +165,15 @@ function ViewCard() {
     let today = new Date().toISOString().split("T")[0];
     setMinDate(today);
   });
+
+  const handleReserve = () => {
+    if (!userData) {
+      navigate("/login");
+      toast.warning("You must login to reserve this.", {});
+      return;
+    }
+    setBookingPopUp(true);
+  };
 
   return (
     <div className="w-[100%] h-[100vh] bg-white flex items-center justify-center gap-[10px] flex-col relative overflow-auto">
@@ -195,7 +217,7 @@ function ViewCard() {
       </div>
 
       <div className="w-[88%] h-[50px] flex items-center justify-start px-[110px]">
-        {cardDetails.host == userData._id ? (
+        {cardDetails.host == userData?._id ? (
           <button
             className="px-[30px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[70px] rounded-lg text-nowrap "
             onClick={() => setUpdatePopUp((prev) => !prev)}
@@ -205,9 +227,12 @@ function ViewCard() {
         ) : (
           <button
             className="px-[30px] py-[10px] bg-[red] text-[white] text-[15px] md:px-[70px] rounded-lg text-nowrap "
-            onClick={() => setBookingPopUp((prev) => !prev)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleReserve();
+            }}
           >
-            Reserve
+            {userData ? "Reserve" : "Login to Reserve"}
           </button>
         )}
       </div>
@@ -216,7 +241,6 @@ function ViewCard() {
 
       {updatePopUp && (
         <div className="w-full min-h-screen flex items-center justify-center bg-black/60 backdrop-blur-sm fixed top-0 left-0 z-50 p-4">
-
           {/* Form */}
           <form
             className="max-w-[750px] w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col gap-4 overflow-auto relative border border-white/30"
@@ -356,7 +380,6 @@ function ViewCard() {
           </form>
         </div>
       )}
-
 
       {bookingPopUp && (
         <div className="w-[100%] min-h-[100%] flex items-center justify-center flex-col gap-[30px] bg-[#ffffffcd] absolute top-[0px] z-[100] p-[20px] backdrop-blur-sm md:flex-row md:gap-[100px]">

@@ -39,10 +39,11 @@ function App() {
           path="/mylisting"
           element={userData != null ? <MyListing /> : <Navigate to={"/"} />}
         />
-        <Route
+        {/* <Route
           path="/viewcard"
           element={userData != null ? <ViewCard /> : <Navigate to={"/"} />}
-        />
+        /> */}
+        <Route path="/viewcard" element={<ViewCard />} />
         <Route
           path="/mybooking"
           element={userData != null ? <MyBooking /> : <Navigate to={"/"} />}
