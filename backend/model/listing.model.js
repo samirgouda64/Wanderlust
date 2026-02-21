@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import User from "./user.model.js";
 
+const imageSchema = new mongoose.Schema({
+  url: String,
+  public_id: String
+},{_id:false});
+
+
 const listingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -20,15 +26,15 @@ const listingSchema = new mongoose.Schema({
     ref: "User"
   },
   image1: {
-    type: String,
+    type: imageSchema,
     required: true,
   },
   image2: {
-    type: String,
+    type: imageSchema,
     required: true,
   },
   image3: {
-    type: String,
+    type: imageSchema,
     required: true,
   },
   rent: {

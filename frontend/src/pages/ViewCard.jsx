@@ -192,14 +192,14 @@ function ViewCard() {
 
       <div className="w-[80%] h-[300px] flex items-center justify-center flex-col md:w-[70%] md:flex-row gap-3">
         <div className="w-[100%] h-[65%] md:w-[70%] md:h-[100%] overflow-hidden flex items-center justify-center border-[2px] border-[white]">
-          <img src={cardDetails.image1} alt="" className="w-[100%]" />
+          <img src={cardDetails.image1?.url} alt="" className="w-[100%]" />
         </div>
         <div className="w-[100%] h-[50%] flex items-center justify-center md:w-[50%] md:h-[100%] md:flex-col gap-3">
           <div className="w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]">
-            <img src={cardDetails.image2} alt="" className="w-[100%]" />
+            <img src={cardDetails.image2?.url} alt="" className="w-[100%]" />
           </div>
           <div className="w-[100%] h-[100%] overflow-hidden flex items-center justify-center border-[2px]">
-            <img src={cardDetails.image3} alt="" className="w-[100%]" />
+            <img src={cardDetails.image3?.url} alt="" className="w-[100%]" />
           </div>
         </div>
       </div>
