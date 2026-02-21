@@ -6,7 +6,7 @@ const uploadOnCloudinary = async (filepath) => {
     if (!filepath) return null;
 
     const uploadResult = await cloudinary.uploader.upload(filepath, {
-      folder: "wanderlust_Prod",
+      folder: process.env.CLOUDINARY_FOLDER,
     });
 
     fs.unlinkSync(filepath);
