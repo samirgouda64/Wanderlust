@@ -21,7 +21,12 @@ function BookingContext({ children }) {
   let navigate = useNavigate();
 
   const handleBooking = async (id) => {
-    setBooking(true)
+    setBooking(true);
+    if (!checkIn || !checkOut) {
+      toast.error("Please select check-in and check-out dates");
+      setBooking(false);
+      return;
+    }
     try {
       let result = await axios.post(
         serverUrl + `/api/booking/create/${id}`,
@@ -37,7 +42,7 @@ function BookingContext({ children }) {
       setBookingData(result.data);
       navigate("/booked");
       toast.success("Booking Successfully");
-      console.log(result.data);
+      // console.log(result.data);
       setBooking(false)
     } catch (error) {
       console.log(error);

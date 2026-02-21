@@ -12,7 +12,7 @@ export const createBooking = async (req, res) => {
       return res.status(404).json({ message: "Listing is not found" });
     }
     if (new Date(checkIn) >= new Date(checkOut)) {
-      return res.status(400).json({ message: "Invalid checkIn/checkOut date" });
+      return res.status(400).json({ message: "Check-out date must be greater than Check-in date" });
     }
     if (listing.isBooked) {
       return res.status(404).json({ message: "Listing is already Booked" });

@@ -389,24 +389,24 @@ function ViewCard() {
           />
 
           <form
-            className="max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f7fbfcfe] p-[20px] rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#abaaaa]"
+            className="max-w-[420px] w-[90%] h-[420px] overflow-auto bg-[#f7fbfcfe] p-[20px] rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#abaaaa]"
             onSubmit={(e) => e.preventDefault()}
           >
-            <h1 className="w-[100%] flex items-center justify-center py-[10px] text-[25px] border-b-[1px] border-[#a3a3a3]">
+            <h1 className="w-[100%] flex items-center justify-center py-[10px] text-[20px] border-b-[1px] border-[#a3a3a3]">
               Confirm & Book
             </h1>
             <div className="w-[100%] h-[70%]  mt-[10px] rounded-lg p-[10px]">
-              <h3 className="text-[19px] font-semibold">Your Trip -</h3>
+              <h3 className="text-[18px] font-semibold">Your Trip -</h3>
 
               <div className="w-[90%] flex items-center justify-start gap-[22px] mt-[20px] md:items-center md:justify-center flex-col md:flex-row ">
-                <label htmlFor="checkin" className="text-[20px] md:text-[20px]">
+                <label htmlFor="checkin" className="text-[14px] md:text-[14px]">
                   CheckIn
                 </label>
                 <input
                   type="date"
                   min={minDate}
                   id="checkin"
-                  className="w-[200px] h-[40px] border-2 border-[#555656] rounded-[10px] bg-transparent text-[15px] px-[10px] md:text-[18px]"
+                  className="w-[150px] h-[35px] border-2 border-[#555656] rounded-[10px] bg-transparent text-[14px] px-[10px] md:text-[14px]"
                   required
                   onChange={(e) => setCheckIn(e.target.value)}
                   value={checkIn}
@@ -416,7 +416,7 @@ function ViewCard() {
               <div className="w-[90%] flex items-center justify-start gap-[10px] mt-[40px] md:items-center md:justify-center flex-col md:flex-row ">
                 <label
                   htmlFor="checkout"
-                  className="text-[20px] md:text-[20px]"
+                  className="text-[14px] md:text-[14px]"
                 >
                   CheckOut
                 </label>
@@ -424,7 +424,7 @@ function ViewCard() {
                   type="date"
                   min={minDate}
                   id="checkout"
-                  className="w-[200px] h-[40px] border-2 border-[#555656] rounded-[10px] bg-transparent text-[15px] px-[10px] md:text-[18px]"
+                  className="w-[150px] h-[35px] border-2 border-[#555656] rounded-[10px] bg-transparent text-[15px] px-[10px] md:text-[18px]"
                   required
                   onChange={(e) => setCheckOut(e.target.value)}
                   value={checkOut}
@@ -432,7 +432,7 @@ function ViewCard() {
               </div>
               <div className="w-[100%] flex items-center justify-center">
                 <button
-                  className="px-[80px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] rounded-lg  text-nowrap mt-[30px]"
+                  className="px-[60px] py-[10px] bg-[red] text-[white] text-[16px] md:px-[80px] rounded-lg  text-nowrap mt-[20px]"
                   onClick={() => handleBooking(cardDetails._id)}
                   disabled={booking}
                 >
@@ -442,19 +442,19 @@ function ViewCard() {
             </div>
           </form>
 
-          <div className="max-w-[450px] w-[90%] h-[450px] bg-[#f7fbfcfe] p-[20px] rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#abaaaa]">
+          <div className="max-w-[420px] w-[90%] h-[420px] bg-[#f7fbfcfe] p-[20px] rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#abaaaa]">
             <div className="w-[95%] h-[30%] border-[1px] border-[#abaaaa] rounded-lg flex justify-center items-center gap-[8px] p-[20px] overflow-hidden">
               <div className="w-[70px] h-[90px] flex items-center justify-center flex-shrink-0 rounded-lg md:w-[100px] md:h-[100px]">
                 <img
                   className="w-[100%] h-[100%] rounded-lg"
-                  src={cardDetails.image1}
+                  src={cardDetails.image1?.url}
                   alt=""
                 />
               </div>
               <div className="w-[80%] h-[100px] gap-[5px]">
-                <h1 className="w-[90%] truncate">{`IN ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()}`}</h1>
-                <h1>{cardDetails.title.toUpperCase()}</h1>
-                <h1>{cardDetails.category.toUpperCase()}</h1>
+                <h1 className="w-[90%] md:text-[11px] truncate">{`IN ${cardDetails.landMark.toUpperCase()}, ${cardDetails.city.toUpperCase()}`}</h1>
+                <h1 className="md:text-[11px]">{cardDetails.title.toUpperCase()}</h1>
+                <h1 className="md:text-[11px]">{cardDetails.category.toUpperCase()}</h1>
                 <h1 className="flex items-center justify-start gap-[5px]">
                   <FaStar className="text-[#eb6262]" />
                   {cardDetails.ratings}
@@ -462,26 +462,26 @@ function ViewCard() {
               </div>
             </div>
 
-            <div className="w-[95%] h-[60%] border-[1px] border-[#abaaaa] rounded-lg flex justify-start items-start p-[20px] gap-[15px] flex-col">
-              <h1 className="text-[22px] font-semibold">Booking Price -</h1>
-              <p className="w-[100%] flex justify-between items-center px-[20px]">
+            <div className="w-[95%] h-[60%] border-[1px] border-[#abaaaa] rounded-lg flex justify-start items-start p-[20px] gap-[10px] flex-col">
+              <h1 className="text-[18px] font-semibold">Booking Price -</h1>
+              <p className="w-[100%] md:text-[12px] flex justify-between items-center px-[20px]">
                 <span className="font-semibold">
                   {`₹${cardDetails.rent} X ${night} nights`}
                 </span>
                 <span> {cardDetails.rent * night} </span>
               </p>
 
-              <p className="w-[100%] flex justify-between items-center px-[20px]">
+              <p className="w-[100%] md:text-[12px] flex justify-between items-center px-[20px]">
                 <span className="font-semibold">Tax</span>
                 <span> {(cardDetails.rent * 7) / 100} </span>
               </p>
 
-              <p className="w-[100%] flex justify-between items-center px-[20px] border-b-[1px] border-gray-500 pb-[10px]">
+              <p className="w-[100%] md:text-[12px] flex justify-between items-center px-[20px] border-b-[1px] border-gray-500 pb-[10px]">
                 <span className="font-semibold">Airbnb Charge</span>
                 <span> {(cardDetails.rent * 7) / 100} </span>
               </p>
 
-              <p className="w-[100%] flex justify-between items-center px-[20px]">
+              <p className="w-[100%] md:text-[14px] flex justify-between items-center px-[20px]">
                 <span className="font-semibold">Total Price</span>
                 <span> {total} </span>
               </p>
