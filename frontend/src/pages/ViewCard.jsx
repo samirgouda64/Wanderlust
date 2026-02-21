@@ -240,30 +240,37 @@ function ViewCard() {
       {/* Update Listing Page */}
 
       {updatePopUp && (
-        <div className="w-full min-h-screen flex items-center justify-center bg-black/60 backdrop-blur-sm fixed top-0 left-0 z-50 p-4">
-          {/* Form */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-2 sm:p-4">
+          
           <form
-            className="max-w-[750px] w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-6 flex flex-col gap-4 overflow-auto relative border border-white/30"
+            className="w-full max-w-[95%] sm:max-w-[650px] md:max-w-[750px] 
+            max-h-[95vh] overflow-y-auto
+            bg-white/80 backdrop-blur-xl 
+            rounded-xl sm:rounded-2xl shadow-2xl 
+            p-4 sm:p-6 flex flex-col gap-4 
+            relative border border-white/30"
             onSubmit={(e) => e.preventDefault()}
           >
+
             {/* Header */}
-            <div className="text-gray-400 text-[12px] uppercase tracking-widest">
+            <div className="text-red-400 text-[11px] sm:text-[12px] uppercase tracking-widest">
               Update Your Details
             </div>
+
             {/* Close Button */}
             <div
-              className="w-10 h-10 bg-white/80 backdrop-blur hover:bg-white cursor-pointer rounded-full flex items-center justify-center shadow-lg absolute top-4 right-4 transition"
+              className="w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur hover:bg-white cursor-pointer rounded-full flex items-center justify-center shadow-lg absolute top-3 right-3 sm:top-4 sm:right-4 transition"
               onClick={() => setUpdatePopUp(false)}
             >
-              <RxCross2 className="w-5 h-5 text-red-500" />
+              <RxCross2 className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
             </div>
 
             {/* Title */}
             <div className="flex flex-col gap-1">
-              <label className="text-gray-600 text-[14px]">Title</label>
+              <label className="text-gray-600 text-[13px] sm:text-[14px]">Title</label>
               <input
                 type="text"
-                className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                className="h-10 border rounded-lg px-3 text-[13px] sm:text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                 required
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
@@ -273,9 +280,9 @@ function ViewCard() {
 
             {/* Description */}
             <div className="flex flex-col gap-1">
-              <label className="text-gray-600 text-[14px]">Description</label>
+              <label className="text-gray-600 text-[13px] sm:text-[14px]">Description</label>
               <textarea
-                className="h-16 border rounded-lg px-3 py-1 text-[14px] focus:ring-2 focus:ring-red-300 outline-none resize-none transition"
+                className="min-h-[70px] sm:min-h-[80px] border rounded-lg px-3 py-2 text-[13px] sm:text-[14px] focus:ring-2 focus:ring-red-300 outline-none resize-none transition"
                 required
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
@@ -284,10 +291,11 @@ function ViewCard() {
             </div>
 
             {/* Images */}
-            <div className="text-gray-400 text-[12px] uppercase tracking-widest">
+            <div className="text-gray-400 text-[11px] sm:text-[12px] uppercase tracking-widest">
               Upload Images
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
               {[
                 { label: "Image1", key: "image1", handler: handleImage1 },
                 { label: "Image2", key: "image2", handler: handleImage2 },
@@ -295,16 +303,16 @@ function ViewCard() {
               ].map((img, i) => (
                 <label
                   key={i}
-                  className={`flex flex-col items-center justify-center gap-1 h-[70px] border-2 rounded-xl cursor-pointer transition text-center
+                  className={`flex flex-col items-center justify-center gap-1 min-h-[60px] sm:min-h-[70px] p-2 border-2 rounded-xl cursor-pointer transition text-center
                   ${
                     imageNames[img.key]
                       ? "border-green-400 bg-green-50"
                       : "border-dashed hover:border-red-400 hover:bg-red-50"
                   }`}
                 >
-                  <span className="text-[12px] text-gray-500">{img.label}</span>
+                  <span className="text-[11px] sm:text-[12px] text-gray-500">{img.label}</span>
                   <span
-                    className={`text-[11px] w-[90%] truncate ${
+                    className={`text-[10px] sm:text-[11px] w-full truncate ${
                       imageNames[img.key] ? "text-green-700" : "text-red-400"
                     }`}
                   >
@@ -321,37 +329,40 @@ function ViewCard() {
             </div>
 
             {/* Location & Rent */}
-            <div className="text-gray-400 text-[12px] uppercase tracking-widest mt-2">
+            <div className="text-gray-400 text-[11px] sm:text-[12px] uppercase tracking-widest mt-2">
               Location & Pricing
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
               <div className="flex flex-col gap-1">
-                <label className="text-gray-600 text-[14px]">Rent</label>
+                <label className="text-gray-600 text-[13px] sm:text-[14px]">Rent</label>
                 <input
                   type="number"
-                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                  className="h-10 border rounded-lg px-3 text-[13px] sm:text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                   required
                   onChange={(e) => setRent(e.target.value)}
                   value={rent}
                   placeholder="₹ Rent.."
                 />
               </div>
+
               <div className="flex flex-col gap-1">
-                <label className="text-gray-600 text-[14px]">City</label>
+                <label className="text-gray-600 text-[13px] sm:text-[14px]">City</label>
                 <input
                   type="text"
-                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                  className="h-10 border rounded-lg px-3 text-[13px] sm:text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                   required
                   onChange={(e) => setCity(e.target.value)}
                   value={city}
                   placeholder="City..."
                 />
               </div>
+
               <div className="flex flex-col gap-1">
-                <label className="text-gray-600 text-[14px]">Landmark</label>
+                <label className="text-gray-600 text-[13px] sm:text-[14px]">Landmark</label>
                 <input
                   type="text"
-                  className="h-10 border rounded-lg px-3 text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
+                  className="h-10 border rounded-lg px-3 text-[13px] sm:text-[14px] focus:ring-2 focus:ring-red-300 outline-none transition"
                   required
                   onChange={(e) => setLandMark(e.target.value)}
                   value={landMark}
@@ -361,22 +372,24 @@ function ViewCard() {
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-end mt-4 gap-3">
+            <div className="flex flex-col sm:flex-row justify-end mt-4 gap-2 sm:gap-3">
               <button
-                className="w-[100px] py-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
+                className="w-full sm:w-[100px] py-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
                 onClick={handleUpdateListing}
                 disabled={updating}
               >
                 {updating ? "Updating..." : "Update"}
               </button>
+
               <button
-                className="w-[100px] py-1.5 bg-gray-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
+                className="w-full sm:w-[100px] py-1.5 bg-gray-500 text-white rounded-xl hover:shadow-xl hover:scale-[1.03] transition font-medium tracking-wide"
                 onClick={handleDeleteListing}
                 disabled={deleting}
               >
                 {deleting ? "Deleting..." : "Delete"}
               </button>
             </div>
+
           </form>
         </div>
       )}
