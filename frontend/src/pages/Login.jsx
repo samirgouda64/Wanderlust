@@ -100,6 +100,14 @@ function Login() {
             onClick={() => setShow(false)}
           />
         )}
+        {/* Forgot Password */}
+
+        <span
+          className="text-red-500 text-[13px] cursor-pointer hover:underline block"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Your Password?
+        </span>
       </div>
 
       {/* Button */}
