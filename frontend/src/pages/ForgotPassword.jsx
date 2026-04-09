@@ -23,7 +23,7 @@ function ForgotPassword() {
       let result = await axios.post(serverUrl + "/api/auth/forgot-password",{email});
       setLoading(false);
       toast.success("OTP sent to your email!");
-      setStep(2); // move to OTP input
+      setStep(2); 
     } catch (err) {
       setLoading(false);
       toast.error(err.response?.data?.message || "Something went wrong");
@@ -38,7 +38,7 @@ function ForgotPassword() {
       let result = await axios.post(serverUrl + "/api/auth/verify-otp",{ email, otp });
       setLoading(false);
       toast.success("OTP verified!");
-      setStep(3); // move to reset password
+      setStep(3);
     } catch (err) {
       setLoading(false);
       toast.error(err.response?.data?.message || "Invalid OTP");
