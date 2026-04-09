@@ -17,6 +17,7 @@ import { authDataContext } from "../Context/AuthContext";
 import axios from "axios";
 import { userDataContext } from "../Context/UserContext";
 import { listingDataContext } from "../Context/ListingContext";
+import { toast } from "react-toastify";
 
 function Nav() {
   let [showpopup, setShowpopup] = useState(false);
@@ -31,9 +32,9 @@ function Nav() {
 
   const handleLogOut = async () => {
     try {
-      let result = await axios.post(serverUrl + "/api/auth/logout", {
-        withCredentials: true,
-      });
+      let result = await axios.post(serverUrl + "/api/auth/logout",
+        {},
+        { withCredentials: true });
       setUserData(null);
       //   console.log(result);
     } catch (error) {
@@ -115,7 +116,13 @@ function Nav() {
         <div className="flex items-center justify-center gap-[10px] relative" ref={popupRef}>
           <span
             className="text-[15px] cursor-pointer rounded-[10px] hover:bg-[#d55454] px-[8px] py-[5px] hidden md:block"
-            onClick={() => navigate("/listingpage1")}
+            onClick={() => {
+              if(!userData){
+                toast.error("Please Login First");
+                setTimeout(() => navigate("/login"), 1500);
+              } else {
+              navigate("/listingpage1")}
+            }}
           >
             List your Home
           </span>
