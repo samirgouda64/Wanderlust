@@ -75,6 +75,17 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    if(user.lastOTPSentAt) {
+      const diff = (Date.now() - user.lastOTPSentAt.getTime()) / 1000;
+
+      if(diff < 180){
+        return res.status(400).json({
+          success: false,
+          remainingTime: Math.ceil(180 - diff)
+        });
+      }
+    }
+
     // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -82,12 +93,17 @@ export const forgotPassword = async (req, res) => {
 
     user.resetOTP = hashedOTP;
     user.resetOTPExpires = Date.now() + 5 * 60 * 1000;
+    user.lastOTPSentAt = new Date();
 
     await user.save();
 
     sendOTPEmail(user.email, otp);
 
-    res.json({ message: "OTP sent successfully" });
+    res.json({ 
+      success: true,
+      message: "OTP sent successfully" ,
+      remainingTime: 180
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -115,7 +131,7 @@ export const verifyOTP = async (req, res) => {
       return res.status(400).json({ message: "OTP expired" });
     }
 
-    res.json({ message: "OTP verified successfully" });
+    res.json({ success: true, message: "OTP verified successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -142,6 +158,16 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ message: "OTP expired" });
     }
 
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must be 8+ chars, include uppercase, lowercase, number & special character"
+      });
+    }
+
     // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
@@ -149,10 +175,11 @@ export const resetPassword = async (req, res) => {
     // Clear OTP
     user.resetOTP = undefined;
     user.resetOTPExpires = undefined;
+    user.lastOTPSentAt = undefined;
 
     await user.save();
 
-    res.json({ message: "Password reset successful" });
+    res.json({ success: true, message: "Password reset successful" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }

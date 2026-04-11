@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
     resetOTPExpires:{
         type:Date
     },
+    lastOTPSentAt:{
+        type:Date
+    },
     listing:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Listing"
