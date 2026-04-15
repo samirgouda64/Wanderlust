@@ -29,9 +29,21 @@ function ListingContext({ children }) {
   let [listingData, setListingData] = useState([]);
   let [newListData, setNewListData] = useState([]);
   let [cardDetails, setCardDetails] = useState(null);
-  let [searchData, setSearchData] = useState([])
+  let [searchData, setSearchData] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   let { serverUrl } = useContext(authDataContext);
+
+  useEffect(() => {
+    const fetchAllListings = async () => {
+      setLoading(true);
+      await getListing();
+      setLoading(false);
+    };
+
+    fetchAllListings();
+  }, []);
 
   const handleAddListing = async () => {
     setAdding(true);
@@ -78,7 +90,7 @@ function ListingContext({ children }) {
     try {
       let result = await axios.get(
         serverUrl + `/api/listing/findlistingbyid/${id}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       // console.log(result)
       setCardDetails(result.data);
@@ -100,22 +112,21 @@ function ListingContext({ children }) {
   // }
 
   const handleSearch = async (data) => {
-  if (!data || !data.trim()) {
-    setSearchData([]);
-    return;
-  }
+    if (!data || !data.trim()) {
+      setSearchData([]);
+      return;
+    }
 
-  try {
-    let result = await axios.get(
-      serverUrl + `/api/listing/search?query=${data.trim()}`
-    );
-    setSearchData(result.data);
-  } catch (error) {
-    setSearchData([]);
-    console.log(error);
-  }
-};
-
+    try {
+      let result = await axios.get(
+        serverUrl + `/api/listing/search?query=${data.trim()}`,
+      );
+      setSearchData(result.data);
+    } catch (error) {
+      setSearchData([]);
+      console.log(error);
+    }
+  };
 
   const getListing = async () => {
     try {
@@ -130,7 +141,13 @@ function ListingContext({ children }) {
   };
 
   useEffect(() => {
-    getListing();
+    const fetchAllListings = async () => {
+      setLoading(true);
+      await getListing();
+      setLoading(false);
+    };
+
+    fetchAllListings();
   }, [adding, updating, deleting]);
 
   let value = {
@@ -173,7 +190,11 @@ function ListingContext({ children }) {
     setUpdating,
     deleting,
     setDeleting,
-    handleSearch,searchData,setSearchData
+    handleSearch,
+    searchData,
+    setSearchData,
+    loading,
+    setLoading,
   };
   return (
     <div>
