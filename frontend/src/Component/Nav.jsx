@@ -25,17 +25,27 @@ function Nav() {
   let { serverUrl } = useContext(authDataContext);
   let { userData, setUserData } = useContext(userDataContext);
   let [cate, setCate] = useState();
-  let { listingData, setListingData, newListData, setNewListData, searchData, handleSearch, handleViewCard } =
-    useContext(listingDataContext);
-    let [input, setInput] = useState("")
-    const popupRef = useRef(null);
+  let {
+    listingData,
+    setListingData,
+    newListData,
+    setNewListData,
+    searchData,
+    handleSearch,
+    handleViewCard,
+  } = useContext(listingDataContext);
+  let [input, setInput] = useState("");
+  const popupRef = useRef(null);
 
   const handleLogOut = async () => {
     try {
-      let result = await axios.post(serverUrl + "/api/auth/logout",
+      let result = await axios.post(
+        serverUrl + "/api/auth/logout",
         {},
-        { withCredentials: true });
+        { withCredentials: true },
+      );
       setUserData(null);
+      localStorage.removeItem("token");
       //   console.log(result);
     } catch (error) {
       console.log(error);
@@ -47,9 +57,7 @@ function Nav() {
     if (category == "trending") {
       setNewListData(listingData);
     } else {
-      setNewListData(listingData.filter((list) => 
-        list.category == category
-    ));
+      setNewListData(listingData.filter((list) => list.category == category));
     }
   };
 
@@ -61,10 +69,9 @@ function Nav() {
     }
   };
 
-
   useEffect(() => {
-    handleSearch(input)
-  }, [input])
+    handleSearch(input);
+  }, [input]);
 
   // close popup if click outside
   useEffect(() => {
@@ -100,28 +107,34 @@ function Nav() {
           </button>
         </div>
 
-        {searchData?.length > 0 && <div className="w-[100vw] h-[450px] flex flex-col gap-[20px] absolute top-[50%] overflow-auto left-[0] justify-start items-center">
+        {searchData?.length > 0 && (
+          <div className="w-[100vw] h-[450px] flex flex-col gap-[20px] absolute top-[50%] overflow-auto left-[0] justify-start items-center">
             <div className="max-w-[700px] w-[100vw] h-[280px] overflow-hidden flex flex-col bg-[#fefdfd] p-[15px] rounded-lg border-[1px] border-[#a2a1a1] cursor-pointer">
-              {
-                searchData.map((search) => (
-                  <div className="border-b border-[black] p-[7px]" onClick={() => handleClick(search._id)}>
-                    {search.title} in {search.landMark}, {search.city}
-                  </div>
-                ))
-              }
+              {searchData.map((search) => (
+                <div
+                  className="border-b border-[black] p-[7px]"
+                  onClick={() => handleClick(search._id)}
+                >
+                  {search.title} in {search.landMark}, {search.city}
+                </div>
+              ))}
             </div>
+          </div>
+        )}
 
-          </div>}
-
-        <div className="flex items-center justify-center gap-[10px] relative" ref={popupRef}>
+        <div
+          className="flex items-center justify-center gap-[10px] relative"
+          ref={popupRef}
+        >
           <span
             className="text-[15px] cursor-pointer rounded-[10px] hover:bg-[#d55454] px-[8px] py-[5px] hidden md:block"
             onClick={() => {
-              if(!userData){
+              if (!userData) {
                 toast.error("Please Login First");
                 setTimeout(() => navigate("/login"), 1500);
               } else {
-              navigate("/listingpage1")}
+                navigate("/listingpage1");
+              }
             }}
           >
             List your Home
@@ -153,8 +166,8 @@ function Nav() {
                       navigate("/login");
                       setShowpopup(false);
                     }}
-                  ><i class="fa-solid fa-circle-user"></i> &nbsp;
-                    Login
+                  >
+                    <i class="fa-solid fa-circle-user"></i> &nbsp; Login
                   </li>
                 ) : (
                   <li
@@ -163,28 +176,52 @@ function Nav() {
                       handleLogOut();
                       setShowpopup(false);
                     }}
-                  ><i class="fa-solid fa-lock"></i> &nbsp;
-                    Logout
+                  >
+                    <i class="fa-solid fa-lock"></i> &nbsp; Logout
                   </li>
                 )}
                 <div className="w-[100%] h-[1px] bg-[#c1c0c0]"></div>
                 <li
                   className="w-[100%] px-[13px] py-[8px] hover:bg-[#f4f3f3] cursor-pointer"
                   onClick={() => {
-                    navigate("/listingpage1");
-                    setShowpopup(false);
+                    if (!userData) {
+                      toast.error("Please Login First");
+                      setTimeout(() => navigate("/login"), 1500);
+                    } else {
+                      navigate("/listingpage1");
+                      setShowpopup(false);
+                    }
                   }}
-                ><i class="fa-solid fa-list"></i> &nbsp;
-                  List your Home
+                >
+                  <i class="fa-solid fa-list"></i> &nbsp; List your Home
                 </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={() => {
-                    navigate("/mylisting");
-                    setShowpopup(false);
-                  }}><i class="fa-solid fa-list-check"></i> &nbsp;
-                  My Listing
+                <li
+                  className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer"
+                  onClick={() => {
+                    if (!userData) {
+                      toast.error("Please Login First");
+                      setTimeout(() => navigate("/login"), 1500);
+                    } else {
+                      navigate("/mylisting");
+                      setShowpopup(false);
+                    }
+                  }}
+                >
+                  <i class="fa-solid fa-list-check"></i> &nbsp; My Listing
                 </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {navigate("/mybooking"); setShowpopup(false)}}><i class="fa-solid fa-book-open"></i> &nbsp;
-                  My Booking
+                <li
+                  className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer"
+                  onClick={() => {
+                    if (!userData) {
+                      toast.error("Please Login First");
+                      setTimeout(() => navigate("/login"), 1500);
+                    } else {
+                      navigate("/mybooking");
+                      setShowpopup(false);
+                    }
+                  }}
+                >
+                  <i class="fa-solid fa-book-open"></i> &nbsp; My Booking
                 </li>
               </ul>
             </div>
@@ -211,7 +248,7 @@ function Nav() {
         <div
           className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
             cate == "trending" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }` }
+          }`}
           onClick={() => {
             handleCategory("trending");
             setCate("");
