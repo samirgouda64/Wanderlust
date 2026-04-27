@@ -171,19 +171,33 @@ function Nav() {
                 <li
                   className="w-[100%] px-[13px] py-[8px] hover:bg-[#f4f3f3] cursor-pointer"
                   onClick={() => {
-                    navigate("/listingpage1");
-                    setShowpopup(false);
-                  }}
+                    if(!userData){
+                      toast.error("Please Login First");
+                      setTimeout(() => navigate("/login"), 1500);
+                    } else {
+                      navigate("/listingpage1");
+                      setShowpopup(false);
+                  }}}
                 ><i class="fa-solid fa-list"></i> &nbsp;
                   List your Home
                 </li>
                 <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={() => {
+                  if(!userData){
+                    toast.error("Please Login First");
+                    setTimeout(() => navigate("/login"), 1500);
+                  } else {
                     navigate("/mylisting");
                     setShowpopup(false);
-                  }}><i class="fa-solid fa-list-check"></i> &nbsp;
+                  }}}><i class="fa-solid fa-list-check"></i> &nbsp;
                   My Listing
                 </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {navigate("/mybooking"); setShowpopup(false)}}><i class="fa-solid fa-book-open"></i> &nbsp;
+                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {
+                  if(!userData){
+                    toast.error("Please Login First");
+                    setTimeout(() => navigate("/login"), 1500);
+                  } else {
+                  navigate("/mybooking"); setShowpopup(false);
+                }}}><i class="fa-solid fa-book-open"></i> &nbsp;
                   My Booking
                 </li>
               </ul>
