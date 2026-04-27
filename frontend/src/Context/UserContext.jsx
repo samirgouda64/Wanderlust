@@ -21,16 +21,13 @@ function UserContext({ children }) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      getCurrentUser();
-    }
-  }, []);
+    getCurrentUser();
+  },[]);
 
   let value = {
     userData,
     setUserData,
-    getCurrentUser,
+    getCurrentUser
   };
 
   return (
