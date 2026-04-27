@@ -13,7 +13,7 @@ import ViewCard from "./pages/ViewCard";
 import MyBooking from "./pages/MyBooking";
 import Booked from "./pages/Booked";
 import ForgotPassword from "./pages/ForgotPassword";
-import AdminDashboard from "./pages/admin/adminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import PrivateRoute from "./Component/PrivateRoute";
 import Unauthorized from "./Component/Unauthorized";
 
