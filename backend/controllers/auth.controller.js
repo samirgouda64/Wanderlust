@@ -13,7 +13,7 @@ export const signUp = async (req, res) => {
     let hashPassword = await bcrypt.hash(password, 10);
     let user = await User.create({ name, email, password: hashPassword });
 
-    let token = await genToken(user._id);
+    let token = await genToken(user._id, user.role);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
@@ -37,7 +37,8 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "incorrect Password" });
     }
-    let token = await genToken(user._id);
+    let token = await genToken(user._id, user.role);
+    // console.log(token);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,

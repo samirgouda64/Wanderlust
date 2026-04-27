@@ -13,6 +13,9 @@ import ViewCard from "./pages/ViewCard";
 import MyBooking from "./pages/MyBooking";
 import Booked from "./pages/Booked";
 import ForgotPassword from "./pages/ForgotPassword";
+import AdminDashboard from "./pages/admin/adminDashboard";
+import PrivateRoute from "./Component/PrivateRoute";
+import Unauthorized from "./Component/Unauthorized";
 
 function App() {
   let { userData } = useContext(userDataContext);
@@ -54,6 +57,16 @@ function App() {
           path="/booked"
           element={userData != null ? <Booked /> : <Navigate to={"/booked"} />}
         />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <PrivateRoute allowedRole={["admin"]}>
+              <AdminDashboard />
+            </PrivateRoute>
+        } 
+        />
+        <Route path="/unauthorized" element={<Unauthorized/>}/>
       </Routes>
     </>
   );

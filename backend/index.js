@@ -7,6 +7,7 @@ import cors from "cors";
 import userRouter from "./routes/user.route.js";
 import listingRouter from "./routes/listing.route.js";
 import bookingRouter from "./routes/booking.route.js";
+import adminRouter from "./routes/admin.route.js";
 dotenv.config();
 
 let port = process.env.PORT || 6000;
@@ -30,6 +31,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/listing", listingRouter);
 app.use("/api/booking", bookingRouter);
+
+app.use("/api/admin", adminRouter);
 
 app.listen(port, () => {
   connectDb();

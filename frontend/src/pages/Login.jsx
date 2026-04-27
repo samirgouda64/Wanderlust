@@ -32,7 +32,11 @@ function Login() {
       );
       setLoading(false);
       setUserData(result.data);
-      navigate("/");
+      if(result.data.role == "admin"){
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
       // console.log(result);
       toast.success("Login Successfully");
     } catch (error) {

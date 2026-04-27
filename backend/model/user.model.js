@@ -29,7 +29,12 @@ const userSchema = new mongoose.Schema({
     booking:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Listing"
-    }]
+    }],
+    role: {
+        type: String,
+        enum:["user", "admin"],
+        default: "user"
+    }
 }, {timestamps:true});
 
 const User = mongoose.model("User", userSchema);
