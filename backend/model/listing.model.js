@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "./user.model.js";
+import { type } from "os";
 
 const imageSchema = new mongoose.Schema({
   url: String,
@@ -60,6 +61,26 @@ const listingSchema = new mongoose.Schema({
     default:0
   },
   isBooked: {
+    type: Boolean,
+    default: false,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
+  },
+  approvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  approvedAt: {
+    type: Date,
+  },
+  rejectReason: {
+    type: String,
+    default: "",
+  },
+  isRead: {
     type: Boolean,
     default: false,
   },

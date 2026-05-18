@@ -17,6 +17,11 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import PrivateRoute from "./Component/PrivateRoute";
 import Unauthorized from "./Component/Unauthorized";
 
+import DashboardPage from "./pages/admin/DashboardPage";
+import ListingsPage from "./pages/admin/ListingsPage";
+import SettingsPage from "./pages/admin/SettingsPage";
+import AdminListingTable from "./pages/admin/AdminListingTable";
+
 function App() {
   let { userData } = useContext(userDataContext);
 
@@ -59,14 +64,18 @@ function App() {
         />
 
         <Route
-          path="/admin/dashboard"
+          path="/admin"
           element={
             <PrivateRoute allowedRole={["admin"]}>
               <AdminDashboard />
             </PrivateRoute>
-        } 
-        />
-        <Route path="/unauthorized" element={<Unauthorized/>}/>
+          }
+        >
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="listings" element={<ListingsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </>
   );

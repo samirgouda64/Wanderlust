@@ -41,7 +41,7 @@ export const addListing = async (req, res) => {
 
 export const getListing = async (req, res) => {
   try {
-    let listing = await Listing.find().sort({ createdAt: -1 });
+    let listing = await Listing.find({status: "approved"}).sort({ createdAt: -1 });
     return res.status(200).json(listing);
   } catch (error) {
     return res.status(500).json({ message: `getListing error ${error}` });
@@ -161,6 +161,7 @@ export const search = async (req, res) => {
       return res.status(400).json({ message: "Search query is required" });
     }
     const listing = await Listing.find({
+       status: "approved",
       $or: [
         {landMark: {$regex: query, $options:"i"}},
         {city: {$regex: query, $options:"i"}},
