@@ -66,7 +66,7 @@ function ListingContext({ children }) {
       setAdding(false);
       // console.log(result);
       navigate("/");
-      toast.success("AddListing Successfully");
+      toast.success("Listing added successfully! Please wait for admin approval.");
       setTitle("");
       setDescription("");
       setFrontEndImage1(null);
