@@ -1,72 +1,91 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import logo from "../assets/wanderlust_logo.png";
+
 import { FiSearch } from "react-icons/fi";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu, GiFamilyHouse, GiWoodCabin } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
-import { MdWhatshot } from "react-icons/md";
-import { GiFamilyHouse } from "react-icons/gi";
-import { MdBedroomParent } from "react-icons/md";
-import { MdOutlinePool } from "react-icons/md";
-import { GiWoodCabin } from "react-icons/gi";
+import { MdWhatshot, MdBedroomParent, MdOutlinePool } from "react-icons/md";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
 import { IoBedOutline } from "react-icons/io5";
 import { FaTreeCity } from "react-icons/fa6";
 import { BiBuildingHouse } from "react-icons/bi";
+
 import { useNavigate } from "react-router-dom";
+
 import { authDataContext } from "../Context/AuthContext";
-import axios from "axios";
 import { userDataContext } from "../Context/UserContext";
 import { listingDataContext } from "../Context/ListingContext";
+
+import axios from "axios";
 import { toast } from "react-toastify";
 
 function Nav() {
-  let [showpopup, setShowpopup] = useState(false);
-  let navigate = useNavigate();
-  let { serverUrl } = useContext(authDataContext);
-  let { userData, setUserData } = useContext(userDataContext);
-  let [cate, setCate] = useState();
-  let { listingData, setListingData, newListData, setNewListData, searchData, handleSearch, handleViewCard } =
-    useContext(listingDataContext);
-    let [input, setInput] = useState("")
-    const popupRef = useRef(null);
+  const navigate = useNavigate();
 
+  const { serverUrl } = useContext(authDataContext);
+
+  const { userData, setUserData } = useContext(userDataContext);
+
+  const {
+    listingData,
+    setNewListData,
+    searchData,
+    handleSearch,
+    handleViewCard,
+  } = useContext(listingDataContext);
+
+  const [showpopup, setShowpopup] = useState(false);
+  const [cate, setCate] = useState("");
+  const [input, setInput] = useState("");
+
+  // CATEGORY SHOW/HIDE
+  const [showCategory, setShowCategory] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const popupRef = useRef(null);
+
+  // Logout
   const handleLogOut = async () => {
     try {
-      let result = await axios.post(serverUrl + "/api/auth/logout",
+      await axios.post(
+        serverUrl + "/api/auth/logout",
         {},
-        { withCredentials: true });
+        { withCredentials: true },
+      );
+
       setUserData(null);
-      //   console.log(result);
+
+      toast.success("Logout Successful");
+
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Category Filter
   const handleCategory = (category) => {
     setCate(category);
-    if (category == "trending") {
+
+    if (category === "trending") {
       setNewListData(listingData);
     } else {
-      setNewListData(listingData.filter((list) => 
-        list.category == category
-    ));
+      setNewListData(listingData.filter((list) => list.category === category));
     }
   };
 
-  const handleClick = (id) => {
-    if (userData) {
-      handleViewCard(id);
-    } else {
-      navigate("/login");
-    }
-  };
-
-
+  // Search
   useEffect(() => {
-    handleSearch(input)
-  }, [input])
+    handleSearch(input);
+  }, [input]);
 
-  // close popup if click outside
+  // Search Card Click
+  const handleClick = (id) => {
+    handleViewCard(id);
+    setInput("");
+  };
+
+  // Outside click close popup
   useEffect(() => {
     function handleClickOutside(event) {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -75,237 +94,496 @@ function Nav() {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  // HIDE CATEGORY ON SCROLL DOWN
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        setShowCategory(false);
+      } else {
+        setShowCategory(true);
+      }
+
+      setLastScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className="fixed top-0 bg-[white] z-[20]">
-      <div className="w-[100vw] min-h-[60px] border-b-[1px] border-[#dcdcdc] px-[20px] flex items-center justify-between md:px-[40px]">
-        <div>
-          <img src={logo} alt="" className="w-[100px] h-[70px]" />
-        </div>
-
-        <div className="w-[35%] relative hidden md:block ">
-          <input
-            type="text"
-            className="w-[100%] px-[20px] py-[5px] border-[2px] border-[#bdbaba] outline-none overflow-auto rounded-[30px] text-[15px]"
-            placeholder="Any Where | Any Location | Any City "
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
+    <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+      {/* TOP NAVBAR */}
+      <div className="h-[80px] flex items-center justify-between px-4 md:px-10 border-b border-gray-200 bg-white">
+        {/* LOGO */}
+        <div
+          className="cursor-pointer flex items-center"
+          onClick={() => navigate("/")}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            className="w-[120px] h-[100px] object-contain"
           />
-          <button className="absolute p-[8px] rounded-[50px] bg-[red] right-[2%] top-[5px] ">
-            <FiSearch className="w-[10px] h-[10px] text-[white]" />
-          </button>
         </div>
 
-        {searchData?.length > 0 && <div className="w-[100vw] h-[450px] flex flex-col gap-[20px] absolute top-[50%] overflow-auto left-[0] justify-start items-center">
-            <div className="max-w-[700px] w-[100vw] h-[280px] overflow-hidden flex flex-col bg-[#fefdfd] p-[15px] rounded-lg border-[1px] border-[#a2a1a1] cursor-pointer">
-              {
-                searchData.map((search) => (
-                  <div className="border-b border-[black] p-[7px]" onClick={() => handleClick(search._id)}>
-                    {search.title} in {search.landMark}, {search.city}
-                  </div>
-                ))
-              }
+        {/* SEARCH BAR */}
+        <div className="hidden md:flex relative z-[9999]">
+          <div
+            className="
+              w-[420px]
+              h-[45px]
+              bg-gradient-to-r
+              from-white
+              to-gray-50
+              border
+              border-gray-300
+              rounded-full
+              shadow-md
+              hover:shadow-lg
+              transition-all
+              duration-300
+              flex
+              items-center
+              px-4
+              py-2.5
+            "
+          >
+            <FiSearch className="text-gray-400 text-lg" />
+
+            <input
+              type="text"
+              placeholder="Anywhere | Any Location | Any City"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="
+                flex-1
+                outline-none
+                bg-transparent
+                px-4
+                text-sm
+                text-gray-700
+              "
+            />
+
+            <button
+              className="
+                bg-gradient-to-r
+                from-pink-500
+                to-orange-500
+                hover:from-pink-600
+                hover:to-orange-600
+                transition-all
+                text-white
+                p-2.5
+                rounded-full
+                shadow-md
+                hover:shadow-lg
+              "
+            >
+              <FiSearch className="text-sm" />
+            </button>
+          </div>
+
+          {/* SEARCH RESULTS */}
+          {searchData?.length > 0 && input !== "" && (
+            <div
+              className="
+                absolute
+                top-[110%]
+                left-0
+                w-full
+                bg-white
+                rounded-2xl
+                shadow-2xl
+                border
+                border-gray-200
+                overflow-hidden
+                max-h-[400px]
+                overflow-y-auto
+                z-[9999]
+              "
+            >
+              {searchData.map((search) => (
+                <div
+                  key={search._id}
+                  onClick={() => handleClick(search._id)}
+                  className="
+                    px-5
+                    py-4
+                    hover:bg-gradient-to-r
+                    hover:from-pink-50
+                    hover:to-orange-50
+                    cursor-pointer
+                    border-b
+                    last:border-none
+                    transition-colors
+                    duration-200
+                  "
+                >
+                  <h2 className="font-semibold text-gray-900">
+                    {search.title}
+                  </h2>
+
+                  <p className="text-sm text-gray-500">
+                    {search.landMark}, {search.city}
+                  </p>
+                </div>
+              ))}
             </div>
+          )}
+        </div>
 
-          </div>}
-
-        <div className="flex items-center justify-center gap-[10px] relative" ref={popupRef}>
-          <span
-            className="text-[15px] cursor-pointer rounded-[10px] hover:bg-[#d55454] px-[8px] py-[5px] hidden md:block"
-            onClick={() => {
-              if(!userData){
-                toast.error("Please Login First");
-                setTimeout(() => navigate("/login"), 1500);
-              } else {
-              navigate("/listingpage1")}
-            }}
-          >
-            List your Home
-          </span>
+        {/* RIGHT SECTION */}
+        <div className="flex items-center gap-4 relative" ref={popupRef}>
+          {/* LIST HOME */}
           <button
-            className="px-[15px] py-[6px] flex items-center justify-center gap-[5px] border-[1px] border-[#8d8c8c] rounded-[50px] hover:shadow-lg"
-            onClick={() => setShowpopup((prev) => !prev)}
+            onClick={() => {
+              if (!userData) {
+                toast.error("Please Login First");
+
+                setTimeout(() => {
+                  navigate("/login");
+                }, 1000);
+
+                return;
+              }
+
+              navigate("/listingpage1");
+            }}
+            className="
+              hidden
+              md:block
+              px-6
+              py-3
+              rounded-full
+              hover:bg-gradient-to-r
+              hover:from-pink-50
+              hover:to-orange-50
+              transition-all
+              font-semibold
+              text-gray-700
+              hover:text-pink-600
+            "
           >
-            <span>
-              <GiHamburgerMenu className="w-[16px] h-[16px]" />
-            </span>
-            {userData == null ? (
-              <span>
-                <CgProfile className="w-[19px] h-[19px]" />
-              </span>
+            🏠 List Your Home
+          </button>
+
+          {/* PROFILE BUTTON */}
+          <button
+            onClick={() => setShowpopup((prev) => !prev)}
+            className="
+              border
+              border-gray-300
+              rounded-full
+              px-4
+              py-2
+              flex
+              items-center
+              gap-3
+              hover:shadow-md
+              transition-all
+              bg-white
+              hover:border-pink-300
+            "
+          >
+            <GiHamburgerMenu className="text-lg text-gray-600" />
+
+            {userData ? (
+              <div
+                className="
+                  w-8
+                  h-8
+                  rounded-full
+                  bg-gradient-to-br
+                  from-pink-500
+                  to-orange-500
+                  text-white
+                  flex
+                  items-center
+                  justify-center
+                  font-bold
+                  text-sm
+                "
+              >
+                {userData?.name?.slice(0, 1).toUpperCase()}
+              </div>
             ) : (
-              <span className="w-[26px] h-[26px] bg-[#080808] text-[white] rounded-full flex items-center justify-center">
-                {userData?.name.slice(0, 1)}
-              </span>
+              <CgProfile className="text-2xl text-gray-500" />
             )}
           </button>
+
+          {/* DROPDOWN */}
           {showpopup && (
-            <div className="w-[200px] h-[230px] absolute bg-slate-50 top-[110%] right-[3%] border-[1px] border-[#aaa9a9] z-10 rounded-lg md:right-[10%]">
-              <ul className="w-[100%] h-[100%] text-[14px] flex items-start justify-around flex-col py-[8px]">
-                {!userData ? (
-                  <li
-                    className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer"
-                    onClick={() => {
-                      navigate("/login");
-                      setShowpopup(false);
-                    }}
-                  ><i class="fa-solid fa-circle-user"></i> &nbsp;
-                    Login
-                  </li>
-                ) : (
-                  <li
-                    className="w-[100%] px-[13px] py-[8px] hover:bg-[#f4f3f3] cursor-pointer"
-                    onClick={() => {
-                      handleLogOut();
-                      setShowpopup(false);
-                    }}
-                  ><i class="fa-solid fa-lock"></i> &nbsp;
-                    Logout
-                  </li>
-                )}
-                <div className="w-[100%] h-[1px] bg-[#c1c0c0]"></div>
-                <li
-                  className="w-[100%] px-[13px] py-[8px] hover:bg-[#f4f3f3] cursor-pointer"
+            <div
+              className="
+                absolute
+                top-[120%]
+                right-0
+                w-[240px]
+                bg-white
+                rounded-2xl
+                shadow-2xl
+                border
+                border-gray-200
+                overflow-hidden
+                z-[9999]
+              "
+            >
+              {!userData ? (
+                <button
                   onClick={() => {
-                    if(!userData){
-                      toast.error("Please Login First");
-                      setTimeout(() => navigate("/login"), 1500);
-                    } else {
-                      navigate("/listingpage1");
-                      setShowpopup(false);
-                  }}}
-                ><i class="fa-solid fa-list"></i> &nbsp;
-                  List your Home
-                </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={() => {
-                  if(!userData){
-                    toast.error("Please Login First");
-                    setTimeout(() => navigate("/login"), 1500);
-                  } else {
-                    navigate("/mylisting");
+                    navigate("/login");
                     setShowpopup(false);
-                  }}}><i class="fa-solid fa-list-check"></i> &nbsp;
-                  My Listing
-                </li>
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=> {
-                  if(!userData){
+                  }}
+                  className="
+                    w-full
+                    text-left
+                    px-5
+                    py-4
+                    hover:bg-gradient-to-r
+                    hover:from-pink-50
+                    hover:to-orange-50
+                    font-semibold
+                    text-gray-900
+                  "
+                >
+                  🔐 Login
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleLogOut();
+                    setShowpopup(false);
+                  }}
+                  className="
+                    w-full
+                    text-left
+                    px-5
+                    py-4
+                    hover:bg-gradient-to-r
+                    hover:from-red-50
+                    hover:to-pink-50
+                    font-semibold
+                    text-gray-900
+                  "
+                >
+                  🚪 Logout
+                </button>
+              )}
+              <div className="border-t border-gray-200"></div>
+              <button
+                onClick={() => {
+                  if (!userData) {
+                    toast.error("PleaseLogin First");
+                    setTimeout(() => {
+                      navigate("/login");
+                    }, 1000);
+                    return;
+                  }
+                  navigate("/listingpage1");
+                  setShowpopup(false);
+                }}
+                className=" w-full text-left px-5 py-4 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors duration-200 text-gray-900 "
+              >
+                📝 List your Home
+              </button>
+              <button
+                onClick={() => {
+                  if (!userData) {
                     toast.error("Please Login First");
-                    setTimeout(() => navigate("/login"), 1500);
-                  } else {
-                  navigate("/mybooking"); setShowpopup(false);
-                }}}><i class="fa-solid fa-book-open"></i> &nbsp;
-                  My Booking
-                </li>
-              </ul>
+                    setTimeout(() => {
+                      navigate("/login");
+                    }, 1000);
+                    return;
+                  }
+                  navigate("/mylisting");
+                  setShowpopup(false);
+                }}
+                className=" w-full text-left px-5 py-4 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors duration-200 text-gray-900 "
+              >
+                {" "}
+                🏠 My Listings
+              </button>
+              <button
+                onClick={() => {
+                  if (!userData) {
+                    toast.error("Please Login First");
+                    setTimeout(() => {
+                      navigate("/login");
+                    }, 1000);
+                    return;
+                  }
+                  navigate("/mybooking");
+                  setShowpopup(false);
+                }}
+                className=" w-full text-left px-5 py-4 hover:bg-gradient-to-r hover:from-pink-50 hover:to-orange-50 transition-colors duration-200 text-gray-900 "
+              >
+                🎫 My Bookings
+              </button>
             </div>
           )}
         </div>
       </div>
 
-      <div className="w-[100%] h-[60px] flex items-center justify-center md:hidden">
-        <div className="w-[80%] relative ">
+      {/* MOBILE SEARCH */}
+      <div className="px-4 pb-4 md:hidden bg-white">
+        <div
+          className="
+            bg-gradient-to-r
+            from-white
+            to-gray-50
+            border
+            border-gray-300
+            rounded-full
+            shadow-md
+            flex
+            items-center
+            px-4
+            py-2.5
+          "
+        >
+          <FiSearch className="text-gray-400" />
+
           <input
             type="text"
-            className="w-[100%] px-[30px] py-[10px] border-[2px] border-[#bdbaba] outline-none overflow-auto rounded-[30px] text-[17px]"
-            placeholder="Any Where | Any Location | Any City "
-            onChange={(e) => setInput(e.target.value)}
+            placeholder="Search destinations"
             value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="
+              flex-1
+              outline-none
+              px-3
+              text-sm
+              bg-transparent
+              text-gray-700
+            "
           />
-          <button className="absolute p-[10px] rounded-[50px] bg-[red] right-[3%] top-[5px] ">
-            <FiSearch className="w-[20px] h-[20px] text-[white]" />
+
+          <button
+            className="
+              bg-gradient-to-r
+              from-pink-500
+              to-orange-500
+              text-white
+              p-2.5
+              rounded-full
+            "
+          >
+            <FiSearch className="text-sm" />
           </button>
         </div>
       </div>
 
-      <div className="w-[100vw] h-[85px] bg-[white] flex items-center justify-start cursor-pointer gap-[40px] overflow-auto md:justify-center px-[15px]">
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "trending" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }` }
-          onClick={() => {
-            handleCategory("trending");
-            setCate("");
-          }}
-        >
-          <MdWhatshot className="w-[20px] h-[20px] text-black" />
-          <h3>Trending</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "villa" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("villa")}
-        >
-          <GiFamilyHouse className="w-[20px] h-[20px] text-black" />
-          <h3>Villa</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] text-nowrap ${
-            cate == "farmHouse" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("farmHouse")}
-        >
-          <FaTreeCity className="w-[20px] h-[20px] text-black" />
-          <h3>Farm House</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] text-nowrap ${
-            cate == "poolHouse" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("poolHouse")}
-        >
-          <MdOutlinePool className="w-[20px] h-[20px] text-black" />
-          <h3>Pool House</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "rooms" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("rooms")}
-        >
-          <MdBedroomParent className="w-[20px] h-[20px] text-black" />
-          <h3>Rooms</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "flat" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("flat")}
-        >
-          <BiBuildingHouse className="w-[20px] h-[20px] text-black" />
-          <h3>Flat</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "pg" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("pg")}
-        >
-          <IoBedOutline className="w-[20px] h-[20px] text-black" />
-          <h3>PG</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "cabins" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("cabin")}
-        >
-          <GiWoodCabin className="w-[20px] h-[20px] text-black" />
-          <h3>Cabins</h3>
-        </div>
-        <div
-          className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${
-            cate == "shops" ? "border-b-[1px] border-[#a6a5a5]" : ""
-          }`}
-          onClick={() => handleCategory("shops")}
-        >
-          <SiHomeassistantcommunitystore className="w-[20px] h-[20px] text-black" />
-          <h3>Shops</h3>
-        </div>
+      {/* CATEGORY SECTION */}
+      <div
+        className={`
+          flex
+          items-center
+          justify-center
+          gap-6
+          overflow-x-auto
+          px-6
+          scrollbar-hide
+          bg-gradient-to-r
+          from-white
+          via-white
+          to-gray-50
+          border-b
+          border-gray-100
+          transition-all
+          duration-300
+          ${
+            showCategory
+              ? "py-0 opacity-100 translate-y-0"
+              : "py-0 opacity-0 -translate-y-full h-0 overflow-hidden"
+          }
+        `}
+      >
+        {[
+          {
+            name: "trending",
+            icon: <MdWhatshot className="text-2xl" />,
+            label: "Trending",
+          },
+          {
+            name: "villa",
+            icon: <GiFamilyHouse className="text-2xl" />,
+            label: "Villa",
+          },
+          {
+            name: "farmHouse",
+            icon: <FaTreeCity className="text-2xl" />,
+            label: "Farm House",
+          },
+          {
+            name: "poolHouse",
+            icon: <MdOutlinePool className="text-2xl" />,
+            label: "Pool House",
+          },
+          {
+            name: "rooms",
+            icon: <MdBedroomParent className="text-2xl" />,
+            label: "Rooms",
+          },
+          {
+            name: "flat",
+            icon: <BiBuildingHouse className="text-2xl" />,
+            label: "Flat",
+          },
+          {
+            name: "pg",
+            icon: <IoBedOutline className="text-2xl" />,
+            label: "PG",
+          },
+          {
+            name: "cabin",
+            icon: <GiWoodCabin className="text-2xl" />,
+            label: "Cabins",
+          },
+          {
+            name: "shops",
+            icon: <SiHomeassistantcommunitystore className="text-2xl" />,
+            label: "Shops",
+          },
+        ].map((item) => (
+          <div
+            key={item.name}
+            onClick={() => handleCategory(item.name)}
+            className={`
+              flex
+              flex-col
+              items-center
+              min-w-fit
+              cursor-pointer
+              transition-all
+              duration-300
+              py-3
+              px-2
+              rounded-lg
+              hover:bg-gray-100
+              ${
+                cate === item.name
+                  ? "bg-gradient-to-r from-pink-100 to-orange-100 text-pink-600 border-b-2 border-pink-500"
+                  : "text-gray-600 hover:text-gray-900 border-b-2 border-transparent"
+              }
+            `}
+          >
+            {item.icon}
+
+            <span className="text-xs mt-1 whitespace-nowrap font-medium">
+              {item.label}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
