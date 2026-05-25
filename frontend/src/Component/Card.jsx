@@ -72,7 +72,7 @@ function Card({
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
         {/* Wishlist Button */}
-        <button
+        {/* <button
           className="
           absolute
           top-4
@@ -89,7 +89,7 @@ function Card({
         "
         >
           <FaHeart className="text-red-500 text-sm" />
-        </button>
+        </button> */}
 
         {/* Booked Badge */}
         {isBooked && (
