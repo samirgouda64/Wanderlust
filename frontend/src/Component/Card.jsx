@@ -124,10 +124,10 @@ function Card({
         {/* Location + Rating */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
-            <h2 className="font-bold text-[16px] text-gray-900 truncate">
+            <h2 className="font-bold text-[16px] text-gray-900 line-clamp-1">
               {landMark}
             </h2>
-            <p className="text-sm text-gray-600 truncate">{city}</p>
+            <p className="text-sm text-gray-600 line-clamp-1">{city}</p>
           </div>
 
           <div className="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1.5 rounded-full">
@@ -141,7 +141,7 @@ function Card({
         {/* Price */}
         <div className="pt-2 border-t border-gray-100">
           <div className="flex items-baseline gap-1">
-            <span className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-600">
+            <span className="font-bold text-sm text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-600">
               ₹{rent}
             </span>
             <span className="text-gray-500 text-sm">/ night</span>
