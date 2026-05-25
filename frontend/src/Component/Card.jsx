@@ -158,8 +158,8 @@ function Card({
           }}
           className="
           absolute
-          bottom-4
-          right-4
+          bottom-1
+          right-1
           bg-white
           shadow-lg
           border border-gray-200
@@ -169,9 +169,12 @@ function Card({
           text-xs
           flex
           items-center
-          gap-1.5
-          hover:bg-red-50
-          hover:border-red-300
+          gap-0.5
+          bg-gradient-to-r
+          from-red-200
+            to-red-300
+          hover:bg-red-500
+          hover:border-red-600
           transition-all
           duration-200
           font-medium
@@ -203,12 +206,13 @@ function Card({
             rounded-2xl
             p-6
             w-[85%]
+            h-[75%]
             shadow-2xl
             border border-gray-100
           "
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-bold text-center text-gray-900">
+            <h2 className="text-sm font-bold text-center text-gray-900">
               Cancel Booking?
             </h2>
             <p className="text-gray-600 text-center mt-2 text-sm">
@@ -225,7 +229,7 @@ function Card({
                 hover:from-red-600
                 hover:to-red-700
                 text-white
-                py-2.5
+                text-sm
                 rounded-lg
                 font-semibold
                 transition-all
@@ -245,7 +249,7 @@ function Card({
                 bg-gray-100
                 hover:bg-gray-200
                 text-gray-900
-                py-2.5
+                text-sm
                 rounded-lg
                 font-semibold
                 transition-all
